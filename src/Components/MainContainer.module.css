@@ -1,0 +1,67 @@
+.menu {
+  width: 800px;
+  margin-left: calc((100vw - 800px) / 2);
+  margin-top: 20px;
+  text-align: center;
+}
+
+.highlightColorIndicator {
+  display: inline-block;
+  vertical-align: top;
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgb(0, 0, 0, 0.5);
+  transition: background-color 0.5s;
+}
+
+.imageContainer {
+  margin-top: 50px;
+  margin-left: 25px;
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  user-select: none;
+}
+
+.image {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 0;
+  box-shadow: 0px 10px 20px rgb(0, 0, 0, 0.5);
+}
+
+.imageOverlay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+  /* background-color: rgb(0, 255, 0, 0.5); */
+  height: 100%;
+  width: 100%;
+}
+
+.imageBoxList {
+  padding: 20px;
+  border-radius: 10px;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 25px;
+  margin-top: 50px;
+  box-shadow: 0px 2px 4px rgb(0, 0, 0, 0.5);
+  animation: fadeIn 0.5s forwards;
+  height: calc(100vh - 250px);
+  width: 400px;
+  overflow-y: scroll;
+  transition: scroll-height 0.5s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

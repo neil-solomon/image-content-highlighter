@@ -1,0 +1,27 @@
+<div
+    style="position: relative; display: inline-block"
+>
+    <img
+        src="happy.jpg"
+        alt="image1"
+        style="
+            width: auto;
+            height: auto;
+        "
+    />
+    <img
+        src="sad.jpg"
+        alt="image2"
+        style="
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            opacity: 1;
+            transition: opacity 2s;
+        "
+        onMouseEnter="this.style.opacity='0'"
+        onMouseLeave="this.style.opacity='1'"
+    />
+</div>

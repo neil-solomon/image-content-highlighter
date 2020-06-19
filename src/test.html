@@ -1,0 +1,68 @@
+<div style='width: 400px;'>
+    <div> 
+        <script> 
+            function updateImageSize(){
+                image = document.getElementById("image");
+                console.log(image.parentElement.parentElement)
+                if (image.naturalWidth > image.parentElement.parentElement.clientWidth) {
+                    image.style.width = image.parentElement.parentElement.clientWidth;
+                    image.style.height *= image.naturalWidth / image.style.width;
+                }
+                if (image.naturalHeight > image.parentElement.parentElement.clientHeight) {
+                    var firstHeight = image.style.height;
+                    image.style.height = image.parentElement.parentElement.clientHeight;
+                    image.style.width *= firstHeight / image.style.height;
+                }
+                imageContainer = document.getElementById("imageMapMaker_imageContainer");
+                imageContainer.style.height = image.style.height;
+                imageContainer.style.width = image.style.width;
+            }
+            function showText(index){
+                var newText = "";
+                switch (index) {
+                    case 0:
+                        newText = "eyes"
+                        break;
+                    case 1:
+                        newText = "mouth"
+                        break;
+                }
+                document.getElementById('textArea').classList.remove("fadeIn");
+                document.getElementById('textArea').classList.add("fadeOut");
+                setTimeout( function f(){
+                    document.getElementById('textArea').innerHTML = newText;
+                    document.getElementById('textArea').classList.remove("fadeOut");
+                    document.getElementById('textArea').classList.add("fadeIn");
+                }, 250);
+            } 
+        </script>
+        <style>
+            .image{
+            }
+            .mapArea{
+                cursor: pointer;
+                position: absolute;
+            }
+            .fadeIn{
+                animation: fadeIn .25s forwards;
+            }
+            @keyframes fadeIn{
+                from {opacity: 0;}
+                to {opacity: 1;}
+            }
+            .fadeOut{
+                animation: fadeOut .25s forwards;
+            }
+            @keyframes fadeOut{
+                from {opacity: 1;}
+                to {opacity: 0;}
+            }
+        </style>
+        <div style='position: relative; display: inline-block' id="imageMapMaker_imageContainer">
+            <img src='./happy.jpg' usemap='#imageMap' class='image' onload='updateImageSize()' id='imageMapMaker_image'/> 
+            <div class='mapArea' style='top: 32%; left: 30%; width: 40%; height: 10%' onclick='showText(0)'></div>
+            <div class='mapArea' style='top: 55%; left: 20%; width: 60%; height: 22%' onclick='showText(1)'></div>
+        </div>
+        <p id='textArea' class='textArea'></p> 
+    </div> 
+</div>
