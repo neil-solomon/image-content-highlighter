@@ -240,22 +240,107 @@ export default class MainContainer extends React.Component {
 
   download = () => {
     var htmlString =
-      "<!DOCTYPE html>" +
-      "<html>" +
-      " <head></head>" +
-      " <body>" +
-      "   <div>Image Map Maker</div>" +
-      "   <script>" +
-      "     function showText(){document.getElementById('textArea').innerHTML='image text!';}\n" +
-      "     function hideText(){document.getElementById('textArea').innerHTML='';}" +
-      "   </script>" +
-      "   <img src='./image.png' usemap='imageMap'/>" +
-      "   <map name='imageMap'>" +
-      "     <area shape='rect' coords='50,50,300,300' onmouseenter='showText()' onmouseleave='hideText()'/>" +
-      "   </map>" +
-      "   <div id='textArea'></div>" +
-      " </body>" +
-      "</html>";
+      "<div> \n" +
+      "\t <script> \n" +
+      "\t\t function updateImageSize() { \n" +
+      "\t\t\t image = document.getElementById('imageContentHighlighter_image_" +
+      this.state.filename +
+      "'); \n" +
+      "\t\t\t if (image.naturalWidth > image.parentElement.parentElement.clientWidth) { \n" +
+      "\t\t\t\t image.style.width = image.parentElement.parentElement.clientWidth; \n" +
+      "\t\t\t\t image.style.height *= image.naturalWidth / image.style.width; \n" +
+      "\t\t\t } \n" +
+      "\t\t\t if (image.naturalHeight > image.parentElement.parentElement.clientHeight) { \n" +
+      "\t\t\t\t var firstHeight = image.style.height; \n" +
+      "\t\t\t\t image.style.height = image.parentElement.parentElement.clientHeight; \n" +
+      "\t\t\t\t image.style.width *= firstHeight / image.style.height; \n" +
+      "\t\t\t } \n" +
+      "\t\t\t imageContainer = document.getElementById('imageContentHighlighter_imageContainer_" +
+      this.state.filename +
+      "'); \n" +
+      "\t\t\t imageContainer.style.height = image.style.height; \n" +
+      "\t\t\t imageContainer.style.width = image.style.width; \n" +
+      "\t\t } \n\n" +
+      "\t\t function showText(index){ \n" +
+      "\t\t\t var newText = ''; \n" +
+      "\t\t\t switch (index) { \n";
+
+    for (const imageBox of this.state.imageBoxes) {
+      htmlString +=
+        "\t\t\t\t case " +
+        imageBox.boxNumber +
+        ":\n\t\t\t\t\t newText = '" +
+        imageBox.displayText +
+        "'; \n\t\t\t\t break; \n";
+    }
+
+    htmlString +=
+      "\t\t\t } \n" +
+      "\t\t\t textArea = document.getElementById('imageContentHighlighter_textArea_" +
+      this.state.filename +
+      "'); \n" +
+      "\t\t\t textArea.classList.remove('imageContentHighlighter_fadeIn'); \n" +
+      "\t\t\t textArea.classList.add('imageContentHighlighter_fadeOut'); \n" +
+      "\t\t\t setTimeout( function f(){ \n" +
+      "\t\t\t\t textArea.innerHTML = newText; \n" +
+      "\t\t\t\t textArea.classList.remove('imageContentHighlighter_fadeOut'); \n" +
+      "\t\t\t\t textArea.classList.add('imageContentHighlighter_fadeIn'); \n" +
+      "\t\t\t }, 250); \n" +
+      "\t\t } \t\t\n" +
+      "\t </script> \n" +
+      "\t <style> \n" +
+      "\t\t .imageContentHighlighter_mapArea{ \n" +
+      "\t\t\t cursor: pointer; \n" +
+      "\t\t\t position: absolute; \n" +
+      "\t\t } \n" +
+      "\t\t .imageContentHighlighter_fadeIn{ \n" +
+      "\t\t\t animation: imageContentHighlighter_fadeIn .25s forwards; \n" +
+      "\t\t } \n" +
+      "\t\t @keyframes imageContentHighlighter_fadeIn{ \n" +
+      "\t\t\t from {opacity: 0;} \n" +
+      "\t\t\t to {opacity: 1;} \n" +
+      "\t\t} \n" +
+      "\t\t .imageContentHighlighter_fadeOut{ \n" +
+      "\t\t\t animation: imageContentHighlighter_fadeOut .25s forwards; \n" +
+      "\t\t } \n" +
+      "\t\t @keyframes imageContentHighlighter_fadeOut{ \n" +
+      "\t\t\t from {opacity: 1;} \n" +
+      "\t\t\t to {opacity: 0;} \n" +
+      "\t\t } \n" +
+      "\t </style> \n" +
+      "\t <div style='position: relative; display: inline-block' id='imageContentHighlighter_imageContainer'> \n" +
+      "\t\t <img src='./image.png' alt='imageContentHighlighter' onload='updateImageSize()' id='imageContentHighlighter_image_" +
+      this.state.filename +
+      "'/> \n";
+
+    const imageBound = document
+      .getElementById("imageContainer")
+      .getBoundingClientRect();
+
+    for (const imageBox of this.state.imageBoxes) {
+      htmlString +=
+        "\t\t <div class='imageContentHighlighter_mapArea' style='top: " +
+        (100 * imageBox.topLeft[1]) / imageBound.height +
+        "%; left: " +
+        (100 * imageBox.topLeft[0]) / imageBound.width +
+        "%; width: " +
+        (100 * (imageBox.bottomRight[0] - imageBox.topLeft[0])) /
+          imageBound.width +
+        "%; height: " +
+        (100 * (imageBox.bottomRight[1] - imageBox.topLeft[1])) /
+          imageBound.height +
+        "%' onclick='showText(" +
+        imageBox.boxNumber +
+        ")'></div> \n";
+    }
+
+    htmlString +=
+      "\t </div> \n" +
+      "\t <p id='imageContentHighlighter_textArea_" +
+      this.state.filename +
+      "'></p> \n" +
+      "</div>";
+
     var zip = new JSZip();
     zip.file(
       "imageContentHighlighter-" + this.state.filename + ".html",
