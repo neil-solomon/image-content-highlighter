@@ -4,8 +4,10 @@
   cursor: pointer;
 }
 
-.message {
-  margin-top: 25px;
+.menu {
+}
+
+.textInput {
   font-size: 0.75em;
   text-align: center;
   animation: delayedFadeIn 0.5s forwards;

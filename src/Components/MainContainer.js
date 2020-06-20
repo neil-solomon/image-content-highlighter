@@ -438,6 +438,19 @@ export default class MainContainer extends React.Component {
     this.setState({ highlightColor: event.target.value });
   };
 
+  deleteImageBox = (boxNumber) => {
+    var imageBoxes = [],
+      boxNumberCount = 0;
+    for (let i = 0; i < this.state.imageBoxes.length; ++i) {
+      if (i !== boxNumber) {
+        imageBoxes.push(this.state.imageBoxes[i]);
+        imageBoxes[imageBoxes.length - 1].boxNumber = boxNumberCount;
+        boxNumberCount += 1;
+      }
+    }
+    this.setState({ imageBoxes: imageBoxes });
+  };
+
   render() {
     return (
       <div>
@@ -524,6 +537,7 @@ export default class MainContainer extends React.Component {
                 displayText={box.displayText}
                 updateActiveImageBox={this.updateActiveImageBox}
                 update_displayText={this.update_displayText}
+                deleteImageBox={this.deleteImageBox}
               />
             ))}
           </div>
