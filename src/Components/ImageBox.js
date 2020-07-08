@@ -26,7 +26,7 @@ export default class ImageBox extends React.Component {
             ) + ",.1)",
         }}
       >
-        {this.props.boxNumber}
+        {this.props.boxNumber + 1}
         {this.props.active && (
           <div
             id={"imageBoxHandle_" + this.props.boxNumber}

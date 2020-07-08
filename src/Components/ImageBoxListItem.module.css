@@ -2,9 +2,31 @@
   font-size: 1em;
   text-align: center;
   cursor: pointer;
+  position: relative;
 }
 
 .menu {
+  text-align: center;
+}
+
+.deleteIcon {
+  position: absolute;
+  z-index: 1;
+  top: 3px;
+  left: 340px;
+  height: 15px;
+  width: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 10px;
+  color: rgb(0, 0, 0, 0.25);
+  border: 2px solid rgb(0, 0, 0, 0.25);
+  border-radius: 100%;
+  transition: color 0.25s, border 0.25s;
+}
+.deleteIcon:hover {
+  color: rgb(255, 0, 0, 0.75);
+  border: 2px solid rgb(255, 0, 0, 0.75);
 }
 
 .textInput {

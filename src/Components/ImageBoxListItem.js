@@ -20,18 +20,42 @@ export default class ImageBoxListItem extends React.Component {
           id={"imageBoxListItem-title_" + this.props.boxNumber}
         >
           Highlight Box #{this.props.boxNumber + 1}
+          <div
+            className={styles.deleteIcon}
+            onClick={() => this.props.deleteImageBox(this.props.boxNumber)}
+          >
+            x
+          </div>
         </div>
         {this.props.active && (
           <>
             <div className={styles.menu}>
-              <button
-                onClick={() => this.props.deleteImageBox(this.props.boxNumber)}
+              <select
+                id={"selectAction_" + this.props.boxNumber}
+                onChange={this.props.update_action}
+                value={this.props.action}
               >
-                Delete
-              </button>
+                <option value={"clickText"}>On Click: Display text.</option>
+                <option value={"hoverText"}>On Hover: Display text.</option>
+                <option value={"linkThisWindow"}>
+                  On Click: Open link in this window.
+                </option>
+                <option value={"linkNewWindow"}>
+                  On Click: Open link in new window.
+                </option>
+                <option value={"linkNewTab"}>
+                  On Click: Open link in new tab.
+                </option>
+              </select>
             </div>
             <div className={styles.textInput}>
-              Text to display when this box is clicked:{" "}
+              <div>
+                {this.props.action === "clickText" && <>Text To Display:</>}
+                {this.props.action === "hoverText" && <>Text To Display:</>}
+                {this.props.action === "linkThisWindow" && <>URL:</>}
+                {this.props.action === "linkNewWindow" && <>URL:</>}
+                {this.props.action === "linkNewTab" && <>URL:</>}
+              </div>
               <textarea
                 id={"textArea_" + this.props.boxNumber}
                 rows={10}

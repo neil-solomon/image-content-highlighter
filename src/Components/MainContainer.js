@@ -62,6 +62,7 @@ export default class MainContainer extends React.Component {
         window.event.clientX - imageX + 5,
         window.event.clientY - imageY + 5,
       ],
+      action: "clickText",
       displayText: "",
     };
 
@@ -392,6 +393,14 @@ export default class MainContainer extends React.Component {
   };
 
   updateActiveImageBox = (event) => {
+    console.log(event.target);
+    if (
+      !event.target.id.includes("title") &&
+      !event.target.id.includes("imageBox")
+    ) {
+      return;
+    }
+
     const index = parseInt(event.target.id.split("_")[1]);
     var imageBoxes = [...this.state.imageBoxes];
     for (let i = 0; i < imageBoxes.length; ++i) {
@@ -431,6 +440,13 @@ export default class MainContainer extends React.Component {
     const index = parseInt(event.target.id.split("_")[1]);
     var imageBoxes = [...this.state.imageBoxes];
     imageBoxes[index].displayText = event.target.value;
+    this.setState({ imageBoxes });
+  };
+
+  update_action = (event) => {
+    const index = parseInt(event.target.id.split("_")[1]);
+    var imageBoxes = [...this.state.imageBoxes];
+    imageBoxes[index].action = event.target.value;
     this.setState({ imageBoxes });
   };
 
@@ -501,16 +517,19 @@ export default class MainContainer extends React.Component {
             className={styles.imageOverlay}
             onMouseDown={this.imageContainer_mousedown}
           ></div>
-          <img
-            id="uploadedImage"
-            src={this.state.imageSrc}
-            className={styles.image}
-            style={{
-              width: this.state.imageWidth,
-              height: this.state.imageHeight,
-            }}
-            onLoad={this.update_imageSize}
-          ></img>
+          {this.state.imageSrc !== "" && (
+            <img
+              id="uploadedImage"
+              alt="image"
+              src={this.state.imageSrc}
+              className={styles.image}
+              style={{
+                width: this.state.imageWidth,
+                height: this.state.imageHeight,
+              }}
+              onLoad={this.update_imageSize}
+            ></img>
+          )}
           {this.state.imageBoxes.map((box) => (
             <ImageBox
               key={"imageBox" + box.boxNumber}
@@ -535,8 +554,10 @@ export default class MainContainer extends React.Component {
                 boxNumber={box.boxNumber}
                 active={box.active}
                 displayText={box.displayText}
+                action={box.action}
                 updateActiveImageBox={this.updateActiveImageBox}
                 update_displayText={this.update_displayText}
+                update_action={this.update_action}
                 deleteImageBox={this.deleteImageBox}
               />
             ))}
