@@ -11,9 +11,10 @@ import React from "react";
 import JSZip from "jszip";
 import saveAs from "file-saver";
 import styles from "./MainContainer.module.css";
-import ImageBox from "./ImageBox";
-import ImageBoxListItem from "./ImageBoxListItem";
+import ImageBox from "../ImageBox";
+import ImageBoxListItem from "../ImageBoxListItem";
 import buildHtmlString from "./buildHtmlString";
+import buildHtml from "./buildHtml";
 
 export default class MainContainer extends React.Component {
   state = {
@@ -241,10 +242,7 @@ export default class MainContainer extends React.Component {
   };
 
   download = () => {
-    const htmlString = buildHtmlString(
-      this.state.imageBoxes,
-      this.state.filename
-    );
+    const htmlString = buildHtml(this.state.filename, this.state.imageBoxes);
 
     var zip = new JSZip();
     zip.file(

@@ -1,6 +1,6 @@
 import React from "react";
-import MainContainer from "./Components/MainContainer";
-import ImageMapTester from "./Components/ImageMapTester";
+import MainContainer from "./components/MainContainer";
+import ImageMapTester from "./components/ImageMapTester";
 
 function App() {
   return (
