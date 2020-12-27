@@ -13,7 +13,6 @@ import saveAs from "file-saver";
 import styles from "./MainContainer.module.css";
 import ImageBox from "../ImageBox";
 import ImageBoxListItem from "../ImageBoxListItem";
-import buildHtmlString from "./buildHtmlString";
 import buildHtml from "./buildHtml";
 
 export default class MainContainer extends React.Component {
@@ -242,7 +241,10 @@ export default class MainContainer extends React.Component {
   };
 
   download = () => {
-    const htmlString = buildHtml(this.state.filename, this.state.imageBoxes);
+    const html = buildHtml(this.state.filename, this.state.imageBoxes);
+    var serilazer = new XMLSerializer();
+    var htmlString = serilazer.serializeToString(html);
+    htmlString = htmlString.replace(/&gt;/g, ">");
 
     var zip = new JSZip();
     zip.file(

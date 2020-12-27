@@ -38,7 +38,6 @@ const buildHtml = (filename, imageBoxes) => {
   }
 
   for (const imageBox of imageBoxes) {
-    console.log(imageBoxes, imageBox);
     imageContainer.innerHTML +=
       " <div class='imageContentHighlighter_mapArea' style='top: " +
       (100 * imageBox.topLeft[1]) / imageHeight +
@@ -62,11 +61,7 @@ const buildHtml = (filename, imageBoxes) => {
   textArea.id = "imageContentHighlighter_textArea_" + filename;
   imageContainer.appendChild(textArea);
 
-  var s = new XMLSerializer();
-  var htmlString = s.serializeToString(container);
-  htmlString = htmlString.replace(/&gt;/g, ">");
-  console.log(htmlString);
-  return htmlString;
+  return container;
 };
 
 export default buildHtml;
