@@ -30,14 +30,18 @@ export default class MainContainer extends React.Component {
 
     imageBoxAdjustIndex: 0,
     imageBoxes: [],
-    // imageBoxes: [
-    //   {
-    //     active: true, // if its clicked
-    //     topLeft: [20, 20], // coord of top-left corner
-    //     bottomRight: [100, 100], // coord of bottom-right corner
-    //     displayText: ""
-    //   },
-    // ],
+
+    /*
+    exampleImageBox = 
+      {
+        active: true, // if its clicked
+        topLeft: [x, y], // coord of top-left corner
+        bottomRight: [x, y], // coord of bottom-right corner
+        displayText: "", // text to display on hover
+        clickUrl: ""
+        clickTarget: "_self",
+      },
+    */
   };
 
   componentWillUnmount = () => {
@@ -49,11 +53,14 @@ export default class MainContainer extends React.Component {
   };
 
   imageContainer_mousedown = (event) => {
-    var imageX = document
-        .getElementById("imageContainer")
-        .getBoundingClientRect().left,
-      imageY = document.getElementById("imageContainer").getBoundingClientRect()
-        .top;
+    var imageContainer = document.getElementById("imageContainer");
+
+    if (!imageContainer) {
+      return;
+    }
+
+    var imageX = imageContainer.getBoundingClientRect().left,
+      imageY = imageContainer.getBoundingClientRect().top;
 
     var newImageBox = {
       boxNumber: this.state.imageBoxes.length,
@@ -63,8 +70,9 @@ export default class MainContainer extends React.Component {
         window.event.clientX - imageX + 5,
         window.event.clientY - imageY + 5,
       ],
-      action: "clickText",
       displayText: "",
+      clickUrl: "",
+      clickTarget: "_self",
     };
 
     var imageBoxes = [...this.state.imageBoxes];
@@ -347,10 +355,18 @@ export default class MainContainer extends React.Component {
     this.setState({ imageBoxes });
   };
 
-  update_action = (event) => {
+  update_clickUrl = (event) => {
     const index = parseInt(event.target.id.split("_")[1]);
     var imageBoxes = [...this.state.imageBoxes];
-    imageBoxes[index].action = event.target.value;
+    imageBoxes[index].clickUrl = event.target.value;
+    this.setState({ imageBoxes });
+  };
+
+  update_clickTarget = (event) => {
+    const index = parseInt(event.currentTarget.id.split("_")[1]);
+    var imageBoxes = [...this.state.imageBoxes];
+    imageBoxes[index].clickTarget =
+      imageBoxes[index].clickTarget === "_self" ? "_blank" : "_self";
     this.setState({ imageBoxes });
   };
 
@@ -458,10 +474,12 @@ export default class MainContainer extends React.Component {
                 boxNumber={box.boxNumber}
                 active={box.active}
                 displayText={box.displayText}
-                action={box.action}
+                clickUrl={box.clickUrl}
+                clickTarget={box.clickTarget}
                 updateActiveImageBox={this.updateActiveImageBox}
                 update_displayText={this.update_displayText}
-                update_action={this.update_action}
+                update_clickUrl={this.update_clickUrl}
+                update_clickTarget={this.update_clickTarget}
                 deleteImageBox={this.deleteImageBox}
               />
             ))}

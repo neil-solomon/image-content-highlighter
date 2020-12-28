@@ -32,6 +32,7 @@
 .textInput {
   font-size: 0.75em;
   text-align: center;
+  margin-top: 15px;
   animation: delayedFadeIn 0.5s forwards;
 }
 
@@ -42,6 +43,11 @@
   animation: fadeIn 0.5s forwards;
   margin-top: 20px;
   transition: box-shadow 0.25s, height 0.25s;
+}
+
+.openInNewWindowCheckbox {
+  animation: fadeIn 0.5s forwards;
+  user-select: none;
 }
 
 @keyframes fadeIn {

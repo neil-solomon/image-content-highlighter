@@ -28,41 +28,47 @@ const ImageBoxListItem = React.memo((props) => {
       </div>
       {props.active && (
         <>
-          <div className={styles.menu}>
-            <select
-              id={"selectAction_" + props.boxNumber}
-              onChange={props.update_action}
-              value={props.action}
-            >
-              <option value={"clickText"}>On Click: Display text.</option>
-              <option value={"hoverText"}>On Hover: Display text.</option>
-              <option value={"linkThisWindow"}>
-                On Click: Open link in this window.
-              </option>
-              <option value={"linkNewWindow"}>
-                On Click: Open link in new window.
-              </option>
-              <option value={"linkNewTab"}>
-                On Click: Open link in new tab.
-              </option>
-            </select>
-          </div>
           <div className={styles.textInput}>
             <div>
-              {props.action === "clickText" && <>Text To Display:</>}
-              {props.action === "hoverText" && <>Text To Display:</>}
-              {props.action === "linkThisWindow" && <>URL:</>}
-              {props.action === "linkNewWindow" && <>URL:</>}
-              {props.action === "linkNewTab" && <>URL:</>}
+              Enter text to display on mouse hover:
+              <br></br>
+              <i>(leave blank for no effect)</i>
             </div>
             <textarea
               id={"textArea_" + props.boxNumber}
-              rows={10}
-              cols={30}
+              rows={6}
+              cols={35}
               value={props.displayText}
               onChange={props.update_displayText}
-              style={{ fontSize: "16px" }}
+              style={{ fontSize: "14px", resize: "none" }}
             ></textarea>
+          </div>
+          <div className={styles.textInput}>
+            <div>
+              Enter URL (full path) to open on mouse click:
+              <br></br>
+              <i>(leave blank for no effect)</i>
+            </div>
+            <textarea
+              id={"textArea_" + props.boxNumber}
+              rows={2}
+              cols={35}
+              value={props.clickUrl}
+              onChange={props.update_clickUrl}
+              style={{ fontSize: "14px", resize: "none" }}
+            ></textarea>
+            <div
+              id={"openInNewWindowCheckbox_" + props.boxNumber}
+              className={styles.openInNewWindowCheckbox}
+              onClick={props.clickUrl !== "" ? props.update_clickTarget : null}
+            >
+              <input
+                type="checkbox"
+                checked={props.clickTarget === "_blank"}
+                disabled={props.clickUrl === ""}
+              />
+              <span>Open URL in a new window</span>
+            </div>
           </div>
         </>
       )}
