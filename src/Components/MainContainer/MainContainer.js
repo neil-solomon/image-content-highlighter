@@ -82,7 +82,7 @@ export default class MainContainer extends React.Component {
       clickTarget: "_self",
     };
 
-    var imageBoxes = [...this.state.imageBoxes];
+    var imageBoxes = JSON.parse(JSON.stringify(this.state.imageBoxes));
     for (let i = 0; i < imageBoxes.length; ++i) {
       imageBoxes[i].active = false;
     }
@@ -130,7 +130,7 @@ export default class MainContainer extends React.Component {
       updatedBox.bottomRight[1] = updatedBox.topLeft[1] + 10;
     }
 
-    var imageBoxes = [...this.state.imageBoxes];
+    var imageBoxes = JSON.parse(JSON.stringify(this.state.imageBoxes));
     imageBoxes[this.state.imageBoxAdjustIndex] = updatedBox;
     this.setState({ imageBoxes });
   };
@@ -177,7 +177,7 @@ export default class MainContainer extends React.Component {
       return;
     }
 
-    var imageBoxes = [...this.state.imageBoxes];
+    var imageBoxes = JSON.parse(JSON.stringify(this.state.imageBoxes));
     imageBoxes[this.state.imageBoxAdjustIndex] = updatedBox;
     this.setState({ imageBoxes, mouseX: event.clientX, mouseY: event.clientY });
   };
@@ -357,7 +357,7 @@ export default class MainContainer extends React.Component {
     }
 
     const index = parseInt(event.target.id.split("_")[1]);
-    var imageBoxes = [...this.state.imageBoxes];
+    var imageBoxes = JSON.parse(JSON.stringify(this.state.imageBoxes));
     for (let i = 0; i < imageBoxes.length; ++i) {
       if (i === index) {
         imageBoxes[i].active = true;
@@ -393,21 +393,21 @@ export default class MainContainer extends React.Component {
 
   update_displayText = (event) => {
     const index = parseInt(event.target.id.split("_")[1]);
-    var imageBoxes = [...this.state.imageBoxes];
+    var imageBoxes = JSON.parse(JSON.stringify(this.state.imageBoxes));
     imageBoxes[index].displayText = event.target.value;
     this.setState({ imageBoxes });
   };
 
   update_clickUrl = (event) => {
     const index = parseInt(event.target.id.split("_")[1]);
-    var imageBoxes = [...this.state.imageBoxes];
+    var imageBoxes = JSON.parse(JSON.stringify(this.state.imageBoxes));
     imageBoxes[index].clickUrl = event.target.value;
     this.setState({ imageBoxes });
   };
 
   update_clickTarget = (event) => {
     const index = parseInt(event.currentTarget.id.split("_")[1]);
-    var imageBoxes = [...this.state.imageBoxes];
+    var imageBoxes = JSON.parse(JSON.stringify(this.state.imageBoxes));
     imageBoxes[index].clickTarget =
       imageBoxes[index].clickTarget === "_self" ? "_blank" : "_self";
     this.setState({ imageBoxes });
