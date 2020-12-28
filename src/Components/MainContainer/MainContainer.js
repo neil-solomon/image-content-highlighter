@@ -13,6 +13,7 @@ import saveAs from "file-saver";
 import styles from "./MainContainer.module.css";
 import ImageBox from "../ImageBox";
 import ImageBoxListItem from "../ImageBoxListItem";
+import Menu from "../Menu";
 import buildHtml from "./buildHtml";
 
 export default class MainContainer extends React.Component {
@@ -44,12 +45,18 @@ export default class MainContainer extends React.Component {
     */
   };
 
+  componentDidMount = () => {
+    window.addEventListener("resize", this.trigger_update_imageSize);
+  };
+
   componentWillUnmount = () => {
     window.removeEventListener("mousemove", this.startDrawImageBox);
     window.removeEventListener("mouseup", this.stopDrawImageBox);
 
     window.removeEventListener("mousemove", this.startMoveImageBox);
     window.removeEventListener("mouseup", this.stopMoveImageBox);
+
+    window.removeEventListener("resize", this.trigger_update_imageSize);
   };
 
   imageContainer_mousedown = (event) => {
@@ -293,11 +300,48 @@ export default class MainContainer extends React.Component {
       imageWidth =
         event.target.naturalWidth * (imageHeight / event.target.naturalHeight);
     }
-    this.setState({ imageHeight, imageWidth });
+
+    if (
+      imageHeight !== this.state.imageHeight ||
+      imageWidth !== this.state.imageWidth
+    ) {
+      this.scaleImageBoxes(imageHeight, imageWidth);
+    }
+    this.setState({
+      imageHeight,
+      imageWidth,
+      imageHeight_prev: this.state.imageHeight,
+      imageWidth_prev: this.state.imageWidth,
+    });
+  };
+
+  scaleImageBoxes = (newImageHeight, newImageWidth) => {
+    const heightRatio = newImageHeight / this.state.imageHeight,
+      widthRatio = newImageWidth / this.state.imageWidth;
+
+    var imageBoxes = JSON.parse(JSON.stringify(this.state.imageBoxes));
+
+    for (let i = 0; i < imageBoxes.length; ++i) {
+      imageBoxes[i].topLeft[0] *= widthRatio;
+      imageBoxes[i].topLeft[1] *= heightRatio;
+      imageBoxes[i].bottomRight[0] *= heightRatio;
+      imageBoxes[i].bottomRight[1] *= widthRatio;
+    }
+
+    this.setState({ imageBoxes });
   };
 
   update_imageData = (event) => {
     this.setState({ imageData: event.target.result });
+  };
+
+  trigger_update_imageSize = () => {
+    const imageElement = document.getElementById("uploadedImage");
+
+    if (imageElement) {
+      const loadEvent = new Event("load");
+      imageElement.dispatchEvent(loadEvent);
+    }
   };
 
   update_filename = (event) => {
@@ -305,7 +349,6 @@ export default class MainContainer extends React.Component {
   };
 
   updateActiveImageBox = (event) => {
-    console.log(event.target);
     if (
       !event.target.id.includes("title") &&
       !event.target.id.includes("imageBox")
@@ -390,39 +433,30 @@ export default class MainContainer extends React.Component {
   render() {
     return (
       <div>
-        <div className={styles.menu}>
-          Upload Image
-          <input
-            id="fileUpload"
-            alt="uploadedImage"
-            type="file"
-            multiple={false}
-            accept="image/*"
-            onChange={this.loadImage}
-          ></input>
-          <input
-            type="text"
-            id="filenameInput"
-            placeholder="Enter a filename"
-            onChange={this.update_filename}
-          ></input>
-          <button onClick={this.download} disabled={this.state.filename === ""}>
-            Download Files
-          </button>
-          <br></br>
-          Select Highlight Color:
-          <select onChange={this.update_highlightColor}>
-            <option value="rgb(0,0,0)">black</option>
-            <option value="rgb(255,255,255)">white</option>
-            <option value="rgb(255,0,0)">red</option>
-            <option value="rgb(0,255,0)">green</option>
-            <option value="rgb(0,0,255)">blue</option>
-            <option value="rgb(255,255,0)">yellow</option>
-          </select>
-          <div
-            style={{ backgroundColor: this.state.highlightColor }}
-            className={styles.highlightColorIndicator}
-          ></div>
+        <Menu
+          filename={this.state.filename}
+          highlightColor={this.state.highlightColor}
+          update_highlightColor={this.update_highlightColor}
+          loadImage={this.loadImage}
+          update_filename={this.update_filename}
+          download={this.download}
+        />
+        <div className={styles.imageBoxList} id="imageBoxList">
+          {this.state.imageBoxes.map((box) => (
+            <ImageBoxListItem
+              key={"imageBoxListItem" + box.boxNumber}
+              boxNumber={box.boxNumber}
+              active={box.active}
+              displayText={box.displayText}
+              clickUrl={box.clickUrl}
+              clickTarget={box.clickTarget}
+              updateActiveImageBox={this.updateActiveImageBox}
+              update_displayText={this.update_displayText}
+              update_clickUrl={this.update_clickUrl}
+              update_clickTarget={this.update_clickTarget}
+              deleteImageBox={this.deleteImageBox}
+            />
+          ))}
         </div>
         <div
           id="imageContainer"
@@ -440,7 +474,7 @@ export default class MainContainer extends React.Component {
           {this.state.imageSrc !== "" && (
             <img
               id="uploadedImage"
-              alt="image"
+              alt="uploaded content"
               src={this.state.imageSrc}
               className={styles.image}
               style={{
@@ -466,25 +500,6 @@ export default class MainContainer extends React.Component {
             />
           ))}
         </div>
-        {this.state.imageBoxes.length > 0 && (
-          <div className={styles.imageBoxList} id="imageBoxList">
-            {this.state.imageBoxes.reverse().map((box) => (
-              <ImageBoxListItem
-                key={"imageBoxListItem" + box.boxNumber}
-                boxNumber={box.boxNumber}
-                active={box.active}
-                displayText={box.displayText}
-                clickUrl={box.clickUrl}
-                clickTarget={box.clickTarget}
-                updateActiveImageBox={this.updateActiveImageBox}
-                update_displayText={this.update_displayText}
-                update_clickUrl={this.update_clickUrl}
-                update_clickTarget={this.update_clickTarget}
-                deleteImageBox={this.deleteImageBox}
-              />
-            ))}
-          </div>
-        )}
       </div>
     );
   }

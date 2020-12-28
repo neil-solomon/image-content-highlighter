@@ -1,0 +1,22 @@
+.container {
+  text-align: center;
+  height: 50px;
+  border-bottom: 1px solid grey;
+}
+
+.highlightColorIndicator {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 5px;
+  border-radius: 100%;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgb(0, 0, 0, 0.5);
+  transition: background-color 0.5s;
+}
+
+.menuItem {
+  display: inline-block;
+  margin-right: 50px;
+  margin-top: 15px;
+}

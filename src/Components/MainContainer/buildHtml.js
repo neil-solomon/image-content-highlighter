@@ -38,45 +38,49 @@ const buildHtml = (filename, imageBoxes) => {
   }
 
   for (const imageBox of imageBoxes) {
-    if (imageBox.clickUrl !== "") {
-      imageContainer.innerHTML +=
-        "<a href='" +
-        imageBox.clickUrl +
-        "' target='" +
-        imageBox.clickTarget +
-        "' rel=noopener>" +
-        " <div class='imageContentHighlighter_mapArea' style='top: " +
-        (100 * imageBox.topLeft[1]) / imageHeight +
-        "%; left: " +
-        (100 * imageBox.topLeft[0]) / imageWidth +
-        "%; width: " +
-        (100 * (imageBox.bottomRight[0] - imageBox.topLeft[0])) / imageWidth +
-        "%; height: " +
-        (100 * (imageBox.bottomRight[1] - imageBox.topLeft[1])) / imageHeight +
-        "%' onmouseenter='showText(" +
-        imageBox.boxNumber +
-        " , " +
-        (100 * imageBox.bottomRight[1]) / imageHeight +
-        " , " +
-        (100 * imageBox.topLeft[0]) / imageWidth +
-        ")' onmouseleave='hideText()'></div></a>";
-    } else {
-      imageContainer.innerHTML +=
-        " <div class='imageContentHighlighter_mapArea' style='top: " +
-        (100 * imageBox.topLeft[1]) / imageHeight +
-        "%; left: " +
-        (100 * imageBox.topLeft[0]) / imageWidth +
-        "%; width: " +
-        (100 * (imageBox.bottomRight[0] - imageBox.topLeft[0])) / imageWidth +
-        "%; height: " +
-        (100 * (imageBox.bottomRight[1] - imageBox.topLeft[1])) / imageHeight +
-        "%' onmouseenter='showText(" +
-        imageBox.boxNumber +
-        " , " +
-        (100 * imageBox.bottomRight[1]) / imageHeight +
-        " , " +
-        (100 * imageBox.topLeft[0]) / imageWidth +
-        ")' onmouseleave='hideText()'></div>";
+    if (imageBox.displayText !== "") {
+      if (imageBox.clickUrl !== "") {
+        imageContainer.innerHTML +=
+          "<a href='" +
+          imageBox.clickUrl +
+          "' target='" +
+          imageBox.clickTarget +
+          "' rel=noopener>" +
+          " <div class='imageContentHighlighter_mapArea' style='top: " +
+          (100 * imageBox.topLeft[1]) / imageHeight +
+          "%; left: " +
+          (100 * imageBox.topLeft[0]) / imageWidth +
+          "%; width: " +
+          (100 * (imageBox.bottomRight[0] - imageBox.topLeft[0])) / imageWidth +
+          "%; height: " +
+          (100 * (imageBox.bottomRight[1] - imageBox.topLeft[1])) /
+            imageHeight +
+          "%' onmouseenter='showText(" +
+          imageBox.boxNumber +
+          " , " +
+          (100 * imageBox.bottomRight[1]) / imageHeight +
+          " , " +
+          (100 * imageBox.topLeft[0]) / imageWidth +
+          ")' onmouseleave='hideText()'></div></a>";
+      } else {
+        imageContainer.innerHTML +=
+          " <div class='imageContentHighlighter_mapArea' style='top: " +
+          (100 * imageBox.topLeft[1]) / imageHeight +
+          "%; left: " +
+          (100 * imageBox.topLeft[0]) / imageWidth +
+          "%; width: " +
+          (100 * (imageBox.bottomRight[0] - imageBox.topLeft[0])) / imageWidth +
+          "%; height: " +
+          (100 * (imageBox.bottomRight[1] - imageBox.topLeft[1])) /
+            imageHeight +
+          "%' onmouseenter='showText(" +
+          imageBox.boxNumber +
+          " , " +
+          (100 * imageBox.bottomRight[1]) / imageHeight +
+          " , " +
+          (100 * imageBox.topLeft[0]) / imageWidth +
+          ")' onmouseleave='hideText()'></div>";
+      }
     }
   }
 

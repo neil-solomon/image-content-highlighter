@@ -5,11 +5,12 @@ import Adapter from "enzyme-adapter-react-16";
 import MainContainer from "./MainContainer";
 import ImageBox from "../ImageBox";
 import ImageBoxListItem from "../ImageBoxListItem";
+import Menu from "../Menu";
 
 Enzyme.configure({ adapter: new Adapter() });
 
 describe("MainContainer", function () {
-  it("should render 0 ImageBoxe first, then 2 after state.imageBoxes is set", function () {
+  it("should render 0 ImageBox first, then 2 after state.imageBoxes is set", function () {
     const imageBoxes_test = [
       {
         boxNumber: 0,
@@ -34,7 +35,7 @@ describe("MainContainer", function () {
     expect(imageBoxElements).toHaveLength(2);
   });
 
-  it("should render 0 ImageBoxListItem at first, then after state.imageBoxes is set", function () {
+  it("should render 0 ImageBoxListItem at first, then 2 after state.imageBoxes is set", function () {
     const imageBoxes_test = [
       {
         boxNumber: 0,
@@ -57,5 +58,11 @@ describe("MainContainer", function () {
     wrapper.setState({ imageBoxes: imageBoxes_test });
     imageBoxListItemElements = wrapper.find(ImageBox);
     expect(imageBoxListItemElements).toHaveLength(2);
+  });
+
+  it("should render 1 Menu", function () {
+    const wrapper = shallow(<MainContainer />);
+    var menuElements = wrapper.find(Menu);
+    expect(menuElements).toHaveLength(1);
   });
 });

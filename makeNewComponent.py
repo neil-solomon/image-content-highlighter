@@ -23,7 +23,7 @@ def main():
 
     path = "src/components/" + name
 
-    os.system("cd " + path + " && echo import React from 'react'; > " + name + ".js && echo import styles from " + name + ".module.css; >> " + name + ".js && echo: >> " + name + ".js && echo export default class " + name + " extends React.Component{ render(){ return null }} >> " + name + ".js")
+    os.system("cd " + path + " && echo import React from 'react'; > " + name + ".js && echo import styles from './" + name + ".module.css'; >> " + name + ".js && echo: >> " + name + ".js && echo export default class " + name + " extends React.Component{ render(){ return null }} >> " + name + ".js")
     time.sleep(delay)
 
     os.system("cd " + path + " && type NUL > " + name + ".module.css")
