@@ -6,8 +6,8 @@ import ImageBoxListItem from "./ImageBoxListItem";
 
 Enzyme.configure({ adapter: new Adapter() });
 
-describe("ImageBoxListItem", () => {
-  it("should render 8 div if active", () => {
+describe("ImageBoxListItem", function () {
+  it("should render 8 div if active", function () {
     const wrapper = shallow(
       <ImageBoxListItem
         boxNumber={0}
@@ -22,7 +22,7 @@ describe("ImageBoxListItem", () => {
     expect(divs).toHaveLength(8);
   });
 
-  it("should render 3 div if not active", () => {
+  it("should render 3 div if not active", function () {
     const wrapper = shallow(
       <ImageBoxListItem
         boxNumber={0}
@@ -37,7 +37,7 @@ describe("ImageBoxListItem", () => {
     expect(divs).toHaveLength(3);
   });
 
-  it("should render proper boxNumber, displayText, and clickUrl if active", () => {
+  it("should render proper boxNumber, displayText, and clickUrl if active", function () {
     const wrapper = shallow(
       <ImageBoxListItem
         boxNumber={0}
@@ -56,7 +56,7 @@ describe("ImageBoxListItem", () => {
     expect(textArea.get(1).props.value).toEqual("clickUrl_test");
   });
 
-  it("should render disabled checkbox if clickUrl is blank, else an enabled checkbox", () => {
+  it("should render disabled checkbox if clickUrl is blank, else an enabled checkbox", function () {
     var wrapper = shallow(
       <ImageBoxListItem
         boxNumber={0}

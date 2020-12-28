@@ -8,8 +8,8 @@ import ImageBoxListItem from "../ImageBoxListItem";
 
 Enzyme.configure({ adapter: new Adapter() });
 
-describe("MainContainer", () => {
-  it("should render 0 ImageBoxe first, then 2 after state.imageBoxes is set", () => {
+describe("MainContainer", function () {
+  it("should render 0 ImageBoxe first, then 2 after state.imageBoxes is set", function () {
     const imageBoxes_test = [
       {
         boxNumber: 0,
@@ -34,7 +34,7 @@ describe("MainContainer", () => {
     expect(imageBoxElements).toHaveLength(2);
   });
 
-  it("should render 0 ImageBoxListItem at first, then after state.imageBoxes is set", () => {
+  it("should render 0 ImageBoxListItem at first, then after state.imageBoxes is set", function () {
     const imageBoxes_test = [
       {
         boxNumber: 0,

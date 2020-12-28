@@ -1,9 +1,16 @@
 import React from "react";
-import { render } from "@testing-library/react";
-import App from "./App";
+import Enzyme, { shallow } from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
 
-test("renders learn react link", () => {
-  const { getByText } = render(<App />);
-  const headerElement = getByText("Download Files");
-  expect(headerElement).toBeInTheDocument();
+import App from "./App";
+import MainContainer from "./components/MainContainer";
+
+Enzyme.configure({ adapter: new Adapter() });
+
+describe("App", function () {
+  it("should render 1 MainContainer", function () {
+    const wrapper = shallow(<App />);
+    const mainContainer = wrapper.find(MainContainer);
+    expect(mainContainer).toHaveLength(1);
+  });
 });

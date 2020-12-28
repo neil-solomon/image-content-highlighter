@@ -6,8 +6,8 @@ import ImageBox from "./ImageBox";
 
 Enzyme.configure({ adapter: new Adapter() });
 
-describe("ImageBox", () => {
-  it("should render 1 div with proper styling if not active", () => {
+describe("ImageBox", function () {
+  it("should render 1 div with proper styling if not active", function () {
     const wrapper = shallow(
       <ImageBox
         boxNumber={0}
@@ -37,7 +37,7 @@ describe("ImageBox", () => {
     expect(divsStyle0).toHaveProperty("backgroundColor", "rgb(0,0,0,.1)");
   });
 
-  it("should render 2 div with proper styling if active", () => {
+  it("should render 2 div with proper styling if active", function () {
     const wrapper = shallow(
       <ImageBox
         boxNumber={0}

@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import buildHtml from "./buildHtml";
 
-test("checks the output of buildHtmlw", () => {
+test("checks the output of buildHtmlw", function () {
   const filename = "test_filename0";
   const imageBoxes = [
     {
