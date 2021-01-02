@@ -14,11 +14,15 @@ export default class Menu extends React.Component {
             multiple={false}
             accept="image/*"
             onChange={this.props.loadImage}
+            data-test="uploadImageInput"
           ></input>
         </div>
         <div className={styles.menuItem}>
           Select Highlight Color:{" "}
-          <select onChange={this.props.update_highlightColor}>
+          <select
+            onChange={this.props.update_highlightColor}
+            data-test="highlightColorSelect"
+          >
             <option value="rgb(0,0,0)">black</option>
             <option value="rgb(255,255,255)">white</option>
             <option value="rgb(255,0,0)">red</option>
@@ -29,6 +33,7 @@ export default class Menu extends React.Component {
           <div
             style={{ backgroundColor: this.props.highlightColor }}
             className={styles.highlightColorIndicator}
+            data-test="highlightColorDiv"
           ></div>
         </div>
         <div className={styles.menuItem}>
@@ -37,10 +42,12 @@ export default class Menu extends React.Component {
             id="filenameInput"
             placeholder="Enter a filename"
             onChange={this.props.update_filename}
+            data-test="filenameInput"
           ></input>
           <button
             onClick={this.props.download}
             disabled={this.props.filename === ""}
+            data-test="downloadFilesButton"
           >
             Download Files
           </button>
