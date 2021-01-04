@@ -19,4 +19,16 @@
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+  /* This command is copied from a tutorial and worked in downloading things to the excelDownloads folder.
+    But now whenever this is uncommented cypress breaks and can't launch chrome.
+  */
+  // on("before:browser:launch", (browser = {}, launchOptions) => {
+  //   const downloadDirectory = path.join(__dirname, "..", "excelDownloads");
+  //   if (browser.family === "chromium") {
+  //     launchOptions.preferences.default["download"] = {
+  //       default_directory: downloadDirectory,
+  //     };
+  //   }
+  //   return launchOptions;
+  // });
 };

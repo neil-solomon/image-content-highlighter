@@ -6,6 +6,7 @@ export default class ImageBox extends React.PureComponent {
     return (
       <div
         id={"imageBox_" + this.props.boxNumber}
+        data-test={"imageBox_" + this.props.boxNumber}
         onClick={this.props.updateActiveImageBox}
         onMouseDown={this.props.active ? this.props.imageBoxMove : null}
         className={styles.imageBox}

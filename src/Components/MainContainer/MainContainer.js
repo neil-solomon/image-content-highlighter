@@ -470,11 +470,12 @@ export default class MainContainer extends React.Component {
           <div
             className={styles.imageOverlay}
             onMouseDown={this.imageContainer_mousedown}
+            data-test="imageOverlay"
           ></div>
           {this.state.imageSrc !== "" && (
             <img
               id="uploadedImage"
-              alt="uploaded content"
+              alt="uploadedImage"
               src={this.state.imageSrc}
               className={styles.image}
               style={{
@@ -482,6 +483,7 @@ export default class MainContainer extends React.Component {
                 height: this.state.imageHeight,
               }}
               onLoad={this.update_imageSize}
+              data-test="uploadedImage"
             ></img>
           )}
           {this.state.imageBoxes.map((box) => (

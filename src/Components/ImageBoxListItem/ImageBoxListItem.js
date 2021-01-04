@@ -6,6 +6,7 @@ export default class ImageBoxListItem extends React.PureComponent {
     return (
       <div
         id={"imageBoxListItem_" + this.props.boxNumber}
+        data-test={"imageBoxListItem_" + this.props.boxNumber}
         className={styles.container}
         style={{
           boxShadow: this.props.active
@@ -18,11 +19,13 @@ export default class ImageBoxListItem extends React.PureComponent {
           className={styles.title}
           onClick={this.props.updateActiveImageBox}
           id={"imageBoxListItem-title_" + this.props.boxNumber}
+          data-test={"imageBoxListItem-title_" + this.props.boxNumber}
         >
           Highlight Box #{this.props.boxNumber + 1}
           <div
             className={styles.deleteIcon}
             onClick={() => this.props.deleteImageBox(this.props.boxNumber)}
+            data-test={"imageBoxListItem-delete_" + this.props.boxNumber}
           >
             x
           </div>
@@ -36,7 +39,10 @@ export default class ImageBoxListItem extends React.PureComponent {
                 <i>(leave blank for no effect)</i>
               </div>
               <textarea
-                id={"textArea_" + this.props.boxNumber}
+                id={"imageBoxListItem-displayText_" + this.props.boxNumber}
+                data-test={
+                  "imageBoxListItem-displayText_" + this.props.boxNumber
+                }
                 rows={6}
                 cols={35}
                 value={this.props.displayText}
@@ -51,7 +57,8 @@ export default class ImageBoxListItem extends React.PureComponent {
                 <i>(leave blank for no effect)</i>
               </div>
               <textarea
-                id={"textArea_" + this.props.boxNumber}
+                id={"imageBoxListItem-clickUrl_" + this.props.boxNumber}
+                data-test={"imageBoxListItem-clickUrl_" + this.props.boxNumber}
                 rows={2}
                 cols={35}
                 value={this.props.clickUrl}
@@ -60,6 +67,7 @@ export default class ImageBoxListItem extends React.PureComponent {
               ></textarea>
               <div
                 id={"openInNewWindowCheckbox_" + this.props.boxNumber}
+                data-test={"openInNewWindowCheckbox_" + this.props.boxNumber}
                 className={styles.openInNewWindowCheckbox}
                 onClick={
                   this.props.clickUrl !== ""
@@ -71,6 +79,9 @@ export default class ImageBoxListItem extends React.PureComponent {
                   type="checkbox"
                   checked={this.props.clickTarget === "_blank"}
                   disabled={this.props.clickUrl === ""}
+                  data-test={
+                    "imageBoxListItem-clickTarget_" + this.props.boxNumber
+                  }
                 />
                 <span>Open URL in a new window</span>
               </div>
