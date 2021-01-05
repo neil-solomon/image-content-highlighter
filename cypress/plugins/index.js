@@ -31,4 +31,6 @@ module.exports = (on, config) => {
   //   }
   //   return launchOptions;
   // });
+  config.ignoreTestFiles = "**/examples/*.spec.js";
+  return config;
 };

@@ -1,10 +1,22 @@
 import React from "react";
 import styles from "./Menu.module.css";
+import {
+  UploadOutlined,
+  DownloadOutlined,
+  SaveOutlined,
+  UserOutlined,
+  CodeOutlined,
+} from "@ant-design/icons";
 
 export default class Menu extends React.Component {
   render() {
     return (
       <div className={styles.container}>
+        <UploadOutlined />
+        <DownloadOutlined />
+        <SaveOutlined />
+        <UserOutlined />
+        <CodeOutlined />
         <div className={styles.menuItem}>
           Upload Image:{" "}
           <input
