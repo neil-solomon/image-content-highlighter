@@ -26,12 +26,21 @@
 }
 
 .imageBoxList {
-  padding: 20px;
+  /* padding: 20px;
   display: inline-block;
   vertical-align: top;
   height: calc(100vh - 95px);
   width: 400px;
   overflow-y: scroll;
+  transition: scroll-height 0.5s; */
+}
+
+.projectMenuContainer {
+  display: inline-block;
+  vertical-align: top;
+  height: calc(100vh - 95px);
+  overflow-y: scroll;
+  width: 400px;
   transition: scroll-height 0.5s;
 }
 

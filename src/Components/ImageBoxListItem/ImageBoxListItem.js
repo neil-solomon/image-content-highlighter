@@ -12,7 +12,7 @@ export default class ImageBoxListItem extends React.PureComponent {
           boxShadow: this.props.active
             ? "0px 4px 8px rgb(0, 0, 0, 0.25)"
             : "0px 1px 2px rgb(0, 0, 0, .25)",
-          height: this.props.active ? 300 : 25,
+          height: this.props.active ? 400 : 50,
         }}
       >
         <div

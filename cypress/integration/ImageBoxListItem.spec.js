@@ -25,22 +25,22 @@ describe("ImageBoxListItem:", function () {
       cy.get("[data-test=imageBox_0]").should(
         "have.css",
         "border",
-        "2px solid rgb(0, 0, 0)"
+        "2px solid rgb(255, 87, 34)"
       );
       cy.get("[data-test=imageBoxListItem_0]").should(
         "have.css",
         "height",
-        "300px"
+        "400px"
       );
       cy.get("[data-test=imageBox_1]").should(
         "have.css",
         "border",
-        "2px dotted rgb(0, 0, 0)"
+        "2px dotted rgb(255, 87, 34)"
       );
       cy.get("[data-test=imageBoxListItem_1]").should(
         "have.css",
         "height",
-        "25px"
+        "50px"
       );
     });
 

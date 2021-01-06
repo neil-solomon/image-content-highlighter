@@ -3,6 +3,7 @@ import Enzyme, { shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 
 import MainContainer from "./MainContainer";
+import ProjectMenu from "../ProjectMenu";
 import ImageBox from "../ImageBox";
 import ImageBoxListItem from "../ImageBoxListItem";
 import Menu from "../Menu";
@@ -27,12 +28,10 @@ describe("MainContainer", function () {
     ];
 
     const wrapper = shallow(<MainContainer />);
-    var imageBoxElements = wrapper.find(ImageBox);
-    expect(imageBoxElements).toHaveLength(0);
+    expect(wrapper.find(ImageBox)).toHaveLength(0);
 
     wrapper.setState({ imageBoxes: imageBoxes_test });
-    imageBoxElements = wrapper.find(ImageBox);
-    expect(imageBoxElements).toHaveLength(2);
+    expect(wrapper.find(ImageBox)).toHaveLength(2);
   });
 
   it("should render 0 ImageBoxListItem at first, then 2 after state.imageBoxes is set", function () {
@@ -52,17 +51,15 @@ describe("MainContainer", function () {
     ];
 
     const wrapper = shallow(<MainContainer />);
-    var imageBoxListItemElements = wrapper.find(ImageBoxListItem);
-    expect(imageBoxListItemElements).toHaveLength(0);
+    expect(wrapper.find(ImageBoxListItem)).toHaveLength(0);
 
     wrapper.setState({ imageBoxes: imageBoxes_test });
-    imageBoxListItemElements = wrapper.find(ImageBox);
-    expect(imageBoxListItemElements).toHaveLength(2);
+    expect(wrapper.find(ImageBox)).toHaveLength(2);
   });
 
-  it("should render 1 Menu", function () {
+  it("should render 1 Menu and 1 ProjectMenu", function () {
     const wrapper = shallow(<MainContainer />);
-    var menuElements = wrapper.find(Menu);
-    expect(menuElements).toHaveLength(1);
+    expect(wrapper.find(Menu)).toHaveLength(1);
+    expect(wrapper.find(ProjectMenu)).toHaveLength(1);
   });
 });

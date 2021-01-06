@@ -8,18 +8,20 @@ https://stuk.github.io/jszip/
 */
 
 import React from "react";
+import "antd/dist/antd.css";
 import JSZip from "jszip";
 import saveAs from "file-saver";
 import styles from "./MainContainer.module.css";
 import ImageBox from "../ImageBox";
 import ImageBoxListItem from "../ImageBoxListItem";
 import Menu from "../Menu";
+import ProjectMenu from "../ProjectMenu";
 import buildHtml from "./buildHtml";
 
 export default class MainContainer extends React.Component {
   state = {
     filename: "",
-    highlightColor: "rgb(0,0,0)",
+    highlightColor: "#ff5722",
 
     mouseX: 0,
     mouseY: 0,
@@ -414,6 +416,7 @@ export default class MainContainer extends React.Component {
   };
 
   update_highlightColor = (event) => {
+    console.log(event.target.value);
     this.setState({ highlightColor: event.target.value });
   };
 
@@ -441,22 +444,29 @@ export default class MainContainer extends React.Component {
           update_filename={this.update_filename}
           download={this.download}
         />
-        <div className={styles.imageBoxList} id="imageBoxList">
-          {this.state.imageBoxes.map((box) => (
-            <ImageBoxListItem
-              key={"imageBoxListItem" + box.boxNumber}
-              boxNumber={box.boxNumber}
-              active={box.active}
-              displayText={box.displayText}
-              clickUrl={box.clickUrl}
-              clickTarget={box.clickTarget}
-              updateActiveImageBox={this.updateActiveImageBox}
-              update_displayText={this.update_displayText}
-              update_clickUrl={this.update_clickUrl}
-              update_clickTarget={this.update_clickTarget}
-              deleteImageBox={this.deleteImageBox}
-            />
-          ))}
+        <div className={styles.projectMenuContainer}>
+          <ProjectMenu
+            loadImage={this.loadImage}
+            highlightColor={this.state.highlightColor}
+            update_highlightColor={this.update_highlightColor}
+          />
+          <div id="imageBoxList">
+            {this.state.imageBoxes.map((box) => (
+              <ImageBoxListItem
+                key={"imageBoxListItem" + box.boxNumber}
+                boxNumber={box.boxNumber}
+                active={box.active}
+                displayText={box.displayText}
+                clickUrl={box.clickUrl}
+                clickTarget={box.clickTarget}
+                updateActiveImageBox={this.updateActiveImageBox}
+                update_displayText={this.update_displayText}
+                update_clickUrl={this.update_clickUrl}
+                update_clickTarget={this.update_clickTarget}
+                deleteImageBox={this.deleteImageBox}
+              />
+            ))}
+          </div>
         </div>
         <div
           id="imageContainer"
