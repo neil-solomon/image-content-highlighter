@@ -1,13 +1,13 @@
 import React from "react";
-import styles from "./Menu.module.css";
+import styles from "./MainMenu.module.css";
 import {
   PlusCircleOutlined,
   DatabaseOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Tooltip, Modal } from "antd";
+import { Tooltip } from "antd";
 
-export default class Menu extends React.Component {
+export default class MainMenu extends React.Component {
   render() {
     return (
       <div className={styles.container}>
@@ -23,7 +23,6 @@ export default class Menu extends React.Component {
             <UserOutlined className={styles.icon} />
           </Tooltip>
         </div>
-        <Modal visible={false}></Modal>
       </div>
     );
   }

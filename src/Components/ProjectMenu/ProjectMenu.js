@@ -1,13 +1,33 @@
 import React from "react";
 import styles from "./ProjectMenu.module.css";
 import { Tooltip } from "antd";
-import { FileImageOutlined, CodeOutlined } from "@ant-design/icons";
+import {
+  FileImageOutlined,
+  CodeOutlined,
+  PlusCircleOutlined,
+} from "@ant-design/icons";
 
 export default class ProjectMenu extends React.Component {
   render() {
+    if (this.props.projectName === "") {
+      return (
+        <div className={styles.container}>
+          <PlusCircleOutlined
+            className={styles.icon}
+            style={{ marginLeft: 0, marginTop: 5 }}
+          />
+          <div className={styles.projectName} data-test="startNewProject">
+            Start New Project
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className={styles.container}>
-        <div>Project Name</div>
+        <div className={styles.projectName} data-test="projectName">
+          {this.props.projectName}
+        </div>
         <div>
           <div className={styles.colorPicker}>
             <Tooltip title="Change Highlight Color">
@@ -25,6 +45,7 @@ export default class ProjectMenu extends React.Component {
               onClick={() => {
                 document.getElementById("fileUpload").click();
               }}
+              data-test="uploadImageButton"
             />
           </Tooltip>
           <input
@@ -38,24 +59,12 @@ export default class ProjectMenu extends React.Component {
             style={{ display: "none" }}
           ></input>
           <Tooltip title="Download The Code">
-            <CodeOutlined className={styles.icon} />
+            <CodeOutlined
+              className={styles.icon}
+              onClick={this.props.download}
+              data-test="downloadFilesButton"
+            />
           </Tooltip>
-          {/* <div className={styles.menuItem}>
-          <input
-            type="text"
-            id="filenameInput"
-            placeholder="Enter a filename"
-            onChange={this.props.update_filename}
-            data-test="filenameInput"
-          ></input>
-          <button
-            onClick={this.props.download}
-            disabled={this.props.filename === ""}
-            data-test="downloadFilesButton"
-          >
-            Download Files
-          </button>
-        </div> */}
         </div>
       </div>
     );

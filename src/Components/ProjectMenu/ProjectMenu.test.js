@@ -9,10 +9,17 @@ Enzyme.configure({ adapter: new Adapter() });
 describe("ProjectMenu", function () {
   it("should have the hightlightColor of props in the color input", function () {
     const wrapper = shallow(
-      <ProjectMenu filename="filename_test" highlightColor="#aabbcc" />
+      <ProjectMenu projectName="TEST_PROJECT" highlightColor="#aabbcc" />
     );
     expect(
       wrapper.find('[data-test="highlightColorInput"]').get(0).props.value
     ).toEqual("#aabbcc");
+  });
+
+  it("should render 'Start New Project' when props.projectName is blank", function () {
+    const wrapper = shallow(
+      <ProjectMenu projectName="" highlightColor="#aabbcc" />
+    );
+    expect(wrapper.find('[data-test="startNewProject"]')).toHaveLength(1);
   });
 });

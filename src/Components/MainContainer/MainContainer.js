@@ -12,16 +12,17 @@ import "antd/dist/antd.css";
 import JSZip from "jszip";
 import saveAs from "file-saver";
 import styles from "./MainContainer.module.css";
-import ImageBox from "../ImageBox";
+import ImageContainer from "../ImageContainer";
 import ImageBoxListItem from "../ImageBoxListItem";
-import Menu from "../Menu";
+import MainMenu from "../MainMenu";
 import ProjectMenu from "../ProjectMenu";
 import buildHtml from "./buildHtml";
 
 export default class MainContainer extends React.Component {
   state = {
-    filename: "",
+    projectName: "TEST_PROJECT",
     highlightColor: "#ff5722",
+    projectMenuContainerScrollTop: 0,
 
     mouseX: 0,
     mouseY: 0,
@@ -91,7 +92,7 @@ export default class MainContainer extends React.Component {
 
     window.addEventListener("mousemove", this.startDrawImageBox);
     window.addEventListener("mouseup", this.stopDrawImageBox);
-
+    this.scrollProjectMenuContainer(this.state.imageBoxes.length);
     this.setState({
       imageBoxes: [...imageBoxes, newImageBox],
       imageBoxAdjustIndex: this.state.imageBoxes.length,
@@ -258,33 +259,33 @@ export default class MainContainer extends React.Component {
   };
 
   download = () => {
-    const html = buildHtml(this.state.filename, this.state.imageBoxes);
+    const html = buildHtml(this.state.projectName, this.state.imageBoxes);
     var serilazer = new XMLSerializer();
     var htmlString = serilazer.serializeToString(html);
     htmlString = htmlString.replace(/&gt;/g, ">");
 
     var zip = new JSZip();
     zip.file(
-      "imageContentHighlighter-" + this.state.filename + ".html",
+      "imageContentHighlighter-" + this.state.projectName + ".html",
       htmlString
     );
     zip.file("image.png", this.state.imageData, { base64: true });
     zip.generateAsync({ type: "blob" }).then((content) => {
       saveAs(
         content,
-        "imageContentHighlighter-" + this.state.filename + ".zip"
+        "imageContentHighlighter-" + this.state.projectName + ".zip"
       );
     });
   };
 
   loadImage = () => {
-    var filename = document.getElementById("fileUpload").files[0];
+    var projectName = document.getElementById("fileUpload").files[0];
     var readUrl = new FileReader();
     readUrl.onload = this.update_imageSrc;
-    readUrl.readAsDataURL(filename);
+    readUrl.readAsDataURL(projectName);
     var readData = new FileReader();
     readData.onload = this.update_imageData;
-    readData.readAsArrayBuffer(filename);
+    readData.readAsArrayBuffer(projectName);
   };
 
   update_imageSrc = (event) => {
@@ -346,10 +347,6 @@ export default class MainContainer extends React.Component {
     }
   };
 
-  update_filename = (event) => {
-    this.setState({ filename: event.target.value });
-  };
-
   updateActiveImageBox = (event) => {
     if (
       !event.target.id.includes("title") &&
@@ -367,6 +364,8 @@ export default class MainContainer extends React.Component {
         imageBoxes[i].active = false;
       }
     }
+
+    this.scrollProjectMenuContainer(index);
     this.setState({ imageBoxes });
   };
 
@@ -433,22 +432,29 @@ export default class MainContainer extends React.Component {
     this.setState({ imageBoxes: imageBoxes });
   };
 
+  scrollProjectMenuContainer = (index) => {
+    var projectMenuContainer = document.getElementById("projectMenuContainer");
+    if (!projectMenuContainer) {
+      return;
+    }
+    projectMenuContainer.scrollTop = index * 70;
+  };
+
   render() {
     return (
       <div>
-        <Menu
-          filename={this.state.filename}
-          highlightColor={this.state.highlightColor}
-          update_highlightColor={this.update_highlightColor}
-          loadImage={this.loadImage}
-          update_filename={this.update_filename}
-          download={this.download}
-        />
-        <div className={styles.projectMenuContainer}>
+        <MainMenu />
+        <div
+          id="projectMenuContainer"
+          data-test="projectMenuContainer"
+          className={styles.projectMenuContainer}
+        >
           <ProjectMenu
+            projectName={this.state.projectName}
             loadImage={this.loadImage}
             highlightColor={this.state.highlightColor}
             update_highlightColor={this.update_highlightColor}
+            download={this.download}
           />
           <div id="imageBoxList">
             {this.state.imageBoxes.map((box) => (
@@ -468,50 +474,18 @@ export default class MainContainer extends React.Component {
             ))}
           </div>
         </div>
-        <div
-          id="imageContainer"
-          className={styles.imageContainer}
-          style={{
-            width: this.state.imageWidth,
-            height: this.state.imageHeight,
-            marginLeft: (window.innerWidth - this.state.imageWidth - 500) / 2,
-          }}
-        >
-          <div
-            className={styles.imageOverlay}
-            onMouseDown={this.imageContainer_mousedown}
-            data-test="imageOverlay"
-          ></div>
-          {this.state.imageSrc !== "" && (
-            <img
-              id="uploadedImage"
-              alt="uploadedImage"
-              src={this.state.imageSrc}
-              className={styles.image}
-              style={{
-                width: this.state.imageWidth,
-                height: this.state.imageHeight,
-              }}
-              onLoad={this.update_imageSize}
-              data-test="uploadedImage"
-            ></img>
-          )}
-          {this.state.imageBoxes.map((box) => (
-            <ImageBox
-              key={"imageBox" + box.boxNumber}
-              boxNumber={box.boxNumber}
-              left={box.topLeft[0]}
-              top={box.topLeft[1]}
-              width={box.bottomRight[0] - box.topLeft[0]}
-              height={box.bottomRight[1] - box.topLeft[1]}
-              active={box.active}
-              highlightColor={this.state.highlightColor}
-              updateActiveImageBox={this.updateActiveImageBox}
-              imageBoxResize={this.imageBoxResize}
-              imageBoxMove={this.imageBoxMove}
-            />
-          ))}
-        </div>
+        <ImageContainer
+          imageBoxes={this.state.imageBoxes}
+          imageWidth={this.state.imageWidth}
+          imageHeight={this.state.imageHeight}
+          imageContainer_mousedown={this.imageContainer_mousedown}
+          imageSrc={this.state.imageSrc}
+          update_imageSize={this.update_imageSize}
+          highlightColor={this.state.highlightColor}
+          updateActiveImageBox={this.updateActiveImageBox}
+          imageBoxResize={this.imageBoxResize}
+          imageBoxMove={this.imageBoxMove}
+        />
       </div>
     );
   }

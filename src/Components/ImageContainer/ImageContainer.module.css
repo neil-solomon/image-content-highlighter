@@ -1,0 +1,26 @@
+.imageContainer {
+  margin-top: 50px;
+  margin-left: 25px;
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  user-select: none;
+}
+
+.imageOverlay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+  /* background-color: rgb(0, 255, 0, 0.5); */
+  height: 100%;
+  width: 100%;
+}
+
+.image {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 0;
+  box-shadow: 0px 10px 20px rgb(0, 0, 0, 0.5);
+}

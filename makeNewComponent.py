@@ -32,7 +32,7 @@ def main():
     os.system("cd " + path + " && echo {\"main\":\"" + name + ".js\"} > package.json")
     time.sleep(delay)
 
-    os.system("cd " + path + " && echo import React from 'react'; > " + name + ".test.js && echo import Enzyme, { shallow } from 'enzyme'; >> " + name + ".test.js && echo import Adapter from 'enzyme-adapter-react-16'; >> " + name + ".test.js && echo: >> " + name + ".test.js && echo import ./" + name + " from '" + name + ".js'; >> " + name + ".test.js && echo: >> " + name + ".test.js && echo Enzyme.configure({ adapter: new Adapter() }); >> " + name + ".test.js && echo: >> " + name + ".test.js && echo describe('" + name +"', function() {}) >> " + name + ".test.js")
+    os.system("cd " + path + " && echo import React from 'react'; > " + name + ".test.js && echo import Enzyme, { shallow } from 'enzyme'; >> " + name + ".test.js && echo import Adapter from 'enzyme-adapter-react-16'; >> " + name + ".test.js && echo: >> " + name + ".test.js && echo import " + name + " from './" + name + ".js'; >> " + name + ".test.js && echo: >> " + name + ".test.js && echo Enzyme.configure({ adapter: new Adapter() }); >> " + name + ".test.js && echo: >> " + name + ".test.js && echo describe('" + name +"', function() {}) >> " + name + ".test.js")
 
 
 if __name__ == "__main__":

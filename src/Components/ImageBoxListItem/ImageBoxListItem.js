@@ -17,6 +17,7 @@ export default class ImageBoxListItem extends React.PureComponent {
       >
         <div
           className={styles.title}
+          style={{ fontWeight: this.props.active ? "bold" : "normal" }}
           onClick={this.props.updateActiveImageBox}
           id={"imageBoxListItem-title_" + this.props.boxNumber}
           data-test={"imageBoxListItem-title_" + this.props.boxNumber}
