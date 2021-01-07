@@ -14,13 +14,22 @@ export default class MainMenu extends React.Component {
         <div className={styles.title}>Image Mapper</div>
         <div className={styles.icons}>
           <Tooltip title="New Project">
-            <PlusCircleOutlined className={styles.icon} />
+            <PlusCircleOutlined
+              className={styles.icon}
+              onClick={() => this.props.update_modalMenuView(1)}
+            />
           </Tooltip>
           <Tooltip title="My Projects">
-            <DatabaseOutlined className={styles.icon} />
+            <DatabaseOutlined
+              className={styles.icon}
+              onClick={() => this.props.update_modalMenuView(2)}
+            />
           </Tooltip>
           <Tooltip title="My Account">
-            <UserOutlined className={styles.icon} />
+            <UserOutlined
+              className={styles.icon}
+              onClick={() => this.props.update_modalMenuView(0)}
+            />
           </Tooltip>
         </div>
       </div>

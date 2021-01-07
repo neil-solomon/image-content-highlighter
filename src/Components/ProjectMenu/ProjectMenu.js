@@ -15,6 +15,7 @@ export default class ProjectMenu extends React.Component {
           <PlusCircleOutlined
             className={styles.icon}
             style={{ marginLeft: 0, marginTop: 5 }}
+            onClick={() => this.props.update_modalMenuView(1)}
           />
           <div className={styles.projectName} data-test="startNewProject">
             Start New Project
@@ -63,6 +64,7 @@ export default class ProjectMenu extends React.Component {
               className={styles.icon}
               onClick={this.props.download}
               data-test="downloadFilesButton"
+              onClick={() => this.props.update_modalMenuView(3)}
             />
           </Tooltip>
         </div>

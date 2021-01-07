@@ -16,6 +16,7 @@ import ImageContainer from "../ImageContainer";
 import ImageBoxListItem from "../ImageBoxListItem";
 import MainMenu from "../MainMenu";
 import ProjectMenu from "../ProjectMenu";
+import ModalMenu from "../ModalMenu";
 import buildHtml from "./buildHtml";
 
 export default class MainContainer extends React.Component {
@@ -23,6 +24,7 @@ export default class MainContainer extends React.Component {
     projectName: "TEST_PROJECT",
     highlightColor: "#ff5722",
     projectMenuContainerScrollTop: 0,
+    modalMenuView: [false, false, false, false], // Account, New Project, Projects, Get Code
 
     mouseX: 0,
     mouseY: 0,
@@ -440,10 +442,22 @@ export default class MainContainer extends React.Component {
     projectMenuContainer.scrollTop = index * 70;
   };
 
+  update_modalMenuView = (index) => {
+    var modalMenuView = JSON.parse(JSON.stringify(this.state.modalMenuView));
+    for (let i = 0; i < modalMenuView.length; ++i) {
+      if (i === index) {
+        modalMenuView[i] = true;
+      } else {
+        modalMenuView[i] = false;
+      }
+    }
+    this.setState({ modalMenuView });
+  };
+
   render() {
     return (
       <div>
-        <MainMenu />
+        <MainMenu update_modalMenuView={this.update_modalMenuView} />
         <div
           id="projectMenuContainer"
           data-test="projectMenuContainer"
@@ -455,6 +469,7 @@ export default class MainContainer extends React.Component {
             highlightColor={this.state.highlightColor}
             update_highlightColor={this.update_highlightColor}
             download={this.download}
+            update_modalMenuView={this.update_modalMenuView}
           />
           <div id="imageBoxList">
             {this.state.imageBoxes.map((box) => (
@@ -485,6 +500,10 @@ export default class MainContainer extends React.Component {
           updateActiveImageBox={this.updateActiveImageBox}
           imageBoxResize={this.imageBoxResize}
           imageBoxMove={this.imageBoxMove}
+        />
+        <ModalMenu
+          menuView={this.state.modalMenuView}
+          update_modalMenuView={this.update_modalMenuView}
         />
       </div>
     );
