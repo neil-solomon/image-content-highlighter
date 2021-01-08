@@ -23,4 +23,14 @@
   left: 0px;
   z-index: 0;
   box-shadow: 0px 10px 20px rgb(0, 0, 0, 0.5);
+  animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

@@ -15,11 +15,11 @@ const buildHtml = (filename, imageBoxes) => {
   var imageContainer = document.createElement("DIV");
   imageContainer.style.position = "relative";
   imageContainer.style.display = "inline-block";
-  imageContainer.id = "imageContentHighlighter_imageContainer_" + filename;
+  imageContainer.id = "imageMapper_imageContainer_" + filename;
   container.appendChild(imageContainer);
 
   imageContainer.innerHTML +=
-    "<img src='./image.png' alt='imageContentHighlighter' onload='updateImageSize()' id='imageContentHighlighter_image_" +
+    "<img src='./image.png' alt='imageMapper' onload='updateImageSize()' id='imageMapper_image_" +
     filename +
     "'/>";
 
@@ -46,7 +46,7 @@ const buildHtml = (filename, imageBoxes) => {
           "' target='" +
           imageBox.clickTarget +
           "' rel=noopener>" +
-          " <div class='imageContentHighlighter_mapArea' style='top: " +
+          " <div class='imageMapper_mapArea' style='top: " +
           (100 * imageBox.topLeft[1]) / imageHeight +
           "%; left: " +
           (100 * imageBox.topLeft[0]) / imageWidth +
@@ -64,7 +64,7 @@ const buildHtml = (filename, imageBoxes) => {
           ")' onmouseleave='hideText()'></div></a>";
       } else {
         imageContainer.innerHTML +=
-          " <div class='imageContentHighlighter_mapArea' style='top: " +
+          " <div class='imageMapper_mapArea' style='top: " +
           (100 * imageBox.topLeft[1]) / imageHeight +
           "%; left: " +
           (100 * imageBox.topLeft[0]) / imageWidth +
@@ -85,8 +85,8 @@ const buildHtml = (filename, imageBoxes) => {
   }
 
   var textArea = document.createElement("DIV");
-  textArea.classList.add("imageContentHighlighter_textArea");
-  textArea.id = "imageContentHighlighter_textArea_" + filename;
+  textArea.classList.add("imageMapper_textArea");
+  textArea.id = "imageMapper_textArea_" + filename;
   imageContainer.appendChild(textArea);
 
   return container;
@@ -97,7 +97,7 @@ export default buildHtml;
 const make_updateImageSize = (filename) => {
   return (
     " function updateImageSize() { " +
-    " image = document.getElementById('imageContentHighlighter_image_" +
+    " image = document.getElementById('imageMapper_image_" +
     filename +
     "'); " +
     " if (image.naturalWidth > image.parentElement.parentElement.clientWidth) { " +
@@ -109,7 +109,7 @@ const make_updateImageSize = (filename) => {
     " image.style.height = image.parentElement.parentElement.clientHeight; " +
     " image.style.width *= firstHeight / image.style.height; " +
     " } " +
-    " imageContainer = document.getElementById('imageContentHighlighter_imageContainer_" +
+    " imageContainer = document.getElementById('imageMapper_imageContainer_" +
     filename +
     "'); " +
     " imageContainer.style.height = image.style.height; " +
@@ -133,7 +133,7 @@ const make_showText = (filename, imageBoxes) => {
   }
   htmlString +=
     " default: break;} " +
-    " textArea = document.getElementById('imageContentHighlighter_textArea_" +
+    " textArea = document.getElementById('imageMapper_textArea_" +
     filename +
     "'); " +
     " textArea.innerHTML = newText; " +
@@ -148,7 +148,7 @@ const make_showText = (filename, imageBoxes) => {
 const make_hideText = (filename) => {
   return (
     "function hideText(index){ " +
-    " textArea = document.getElementById('imageContentHighlighter_textArea_" +
+    " textArea = document.getElementById('imageMapper_textArea_" +
     filename +
     "'); " +
     " textArea.style.opacity = 0; " +
@@ -158,11 +158,11 @@ const make_hideText = (filename) => {
 
 const make_style = () => {
   return (
-    " .imageContentHighlighter_mapArea{ " +
+    " .imageMapper_mapArea{ " +
     " cursor: pointer; " +
     " position: absolute; " +
     " } " +
-    " .imageContentHighlighter_textArea{ " +
+    " .imageMapper_textArea{ " +
     " font-size: 30px; " +
     " color: white; " +
     " padding: 5px; " +

@@ -15,11 +15,4 @@ describe("ProjectMenu", function () {
       wrapper.find('[data-test="highlightColorInput"]').get(0).props.value
     ).toEqual("#aabbcc");
   });
-
-  it("should render 'Start New Project' when props.projectName is blank", function () {
-    const wrapper = shallow(
-      <ProjectMenu projectName="" highlightColor="#aabbcc" />
-    );
-    expect(wrapper.find('[data-test="startNewProject"]')).toHaveLength(1);
-  });
 });

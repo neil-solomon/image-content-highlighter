@@ -18,13 +18,20 @@ import MainMenu from "../MainMenu";
 import ProjectMenu from "../ProjectMenu";
 import ModalMenu from "../ModalMenu";
 import buildHtml from "./buildHtml";
+import {
+  DatabaseOutlined,
+  PlusCircleOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
 export default class MainContainer extends React.Component {
   state = {
-    projectName: "TEST_PROJECT",
+    projectName: null,
     highlightColor: "#ff5722",
     projectMenuContainerScrollTop: 0,
     modalMenuView: [false, false, false, false], // Account, New Project, Projects, Get Code
+
+    user: null,
 
     mouseX: 0,
     mouseY: 0,
@@ -267,16 +274,10 @@ export default class MainContainer extends React.Component {
     htmlString = htmlString.replace(/&gt;/g, ">");
 
     var zip = new JSZip();
-    zip.file(
-      "imageContentHighlighter-" + this.state.projectName + ".html",
-      htmlString
-    );
+    zip.file("imageMapper-" + this.state.projectName + ".html", htmlString);
     zip.file("image.png", this.state.imageData, { base64: true });
     zip.generateAsync({ type: "blob" }).then((content) => {
-      saveAs(
-        content,
-        "imageContentHighlighter-" + this.state.projectName + ".zip"
-      );
+      saveAs(content, "imageMapper-" + this.state.projectName + ".zip");
     });
   };
 
@@ -454,10 +455,97 @@ export default class MainContainer extends React.Component {
     this.setState({ modalMenuView });
   };
 
+  startNewProject = () => {
+    var projectNameElement = document.getElementById(
+      "ModalMenu_newProject_projectName"
+    );
+    if (!projectNameElement) {
+      return;
+    }
+    this.setState({
+      projectName: projectNameElement.value,
+    });
+  };
+
+  login_test = () => {
+    this.setState({ user: "TEST_USER" });
+    this.update_modalMenuView(-1);
+  };
+
   render() {
+    if (!this.state.user) {
+      return (
+        <div>
+          <MainMenu
+            update_modalMenuView={this.update_modalMenuView}
+            user={this.state.user}
+          />
+          <div>
+            <div
+              className={styles.noProjectContainer}
+              onClick={() => this.update_modalMenuView(0)}
+            >
+              <UserOutlined className={styles.noProjectIcon} />
+              <div className={styles.noProjectText} data-test="openProject">
+                Login
+              </div>
+            </div>
+          </div>
+          <ModalMenu
+            menuView={this.state.modalMenuView}
+            update_modalMenuView={this.update_modalMenuView}
+            download={this.download}
+            startNewProject={this.startNewProject}
+            login_test={this.login_test}
+          />
+        </div>
+      );
+    }
+
+    if (!this.state.projectName) {
+      return (
+        <div>
+          <MainMenu
+            update_modalMenuView={this.update_modalMenuView}
+            user={this.state.user}
+          />
+          <div>
+            <div
+              className={styles.noProjectContainer}
+              onClick={() => this.update_modalMenuView(2)}
+            >
+              <DatabaseOutlined className={styles.noProjectIcon} />
+              <div className={styles.noProjectText} data-test="openProject">
+                Open A Project
+              </div>
+            </div>
+            <div
+              className={styles.noProjectContainer}
+              onClick={() => this.update_modalMenuView(1)}
+            >
+              <PlusCircleOutlined className={styles.noProjectIcon} />
+              <div className={styles.noProjectText} data-test="startNewProject">
+                Start New A Project
+              </div>
+            </div>
+          </div>
+          <ModalMenu
+            menuView={this.state.modalMenuView}
+            update_modalMenuView={this.update_modalMenuView}
+            download={this.download}
+            startNewProject={this.startNewProject}
+            login_test={this.login_test}
+          />
+        </div>
+      );
+    }
+
     return (
       <div>
-        <MainMenu update_modalMenuView={this.update_modalMenuView} />
+        <MainMenu
+          update_modalMenuView={this.update_modalMenuView}
+          user={this.state.user}
+        />
         <div
           id="projectMenuContainer"
           data-test="projectMenuContainer"
@@ -504,6 +592,9 @@ export default class MainContainer extends React.Component {
         <ModalMenu
           menuView={this.state.modalMenuView}
           update_modalMenuView={this.update_modalMenuView}
+          download={this.download}
+          startNewProject={this.startNewProject}
+          login_test={this.login_test}
         />
       </div>
     );

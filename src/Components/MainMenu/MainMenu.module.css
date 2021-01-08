@@ -2,6 +2,7 @@
   text-align: center;
   background-color: rgb(48, 63, 159);
   height: 50px;
+  animation: fadeIn 0.5s forwards;
 }
 
 .title {
@@ -13,7 +14,6 @@
 
 .icons {
   float: right;
-  width: 300px;
   margin-top: 10px;
 }
 
@@ -25,4 +25,13 @@
 }
 .icon:hover {
   color: rgb(255, 87, 34);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

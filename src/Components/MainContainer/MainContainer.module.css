@@ -5,6 +5,36 @@
   overflow-y: scroll;
   width: 400px;
   padding-bottom: 50px;
+  animation: fadeIn 0.5s forwards;
+}
+
+.noProjectText {
+  font-size: 2em;
+}
+
+.noProjectContainer {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  text-align: center;
+  width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #212121;
+  transition: color 0.25s;
+  cursor: pointer;
+  animation: fadeIn 0.5s forwards;
+}
+.noProjectContainer:hover {
+  color: rgb(255, 87, 34);
+}
+.noProjectContainer:hover .noProjectIcon {
+  color: rgb(255, 87, 34);
+}
+
+.noProjectIcon {
+  font-size: 3em;
+  color: rgb(21, 21, 21);
+  transition: color 0.25s;
 }
 
 @keyframes fadeIn {

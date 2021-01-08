@@ -37,7 +37,7 @@ describe("ProjectMenu:", function () {
         .invoke("text")
         .then((text) => {
           cy.readFile(
-            "./cypress/excelDownloads/imageContentHighlighter-" + text + ".zip"
+            "./cypress/excelDownloads/imageMapper-" + text + ".zip"
           ).should("exist");
         });
     });
