@@ -7,7 +7,7 @@ export default class ModalMenuAccount extends React.Component {
       <div>
         ModalMenuAccount
         <button onClick={this.props.login_test} data-test="login_test">
-          Login
+          login_test
         </button>
       </div>
     );

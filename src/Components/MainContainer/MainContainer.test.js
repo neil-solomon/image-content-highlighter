@@ -7,19 +7,53 @@ import ProjectMenu from "../ProjectMenu";
 import ImageContainer from "../ImageContainer";
 import ImageBoxListItem from "../ImageBoxListItem";
 import MainMenu from "../MainMenu";
+import ModalMenu from "../ModalMenu";
+import {
+  UserOutlined,
+  DatabaseOutlined,
+  PlusCircleOutlined,
+} from "@ant-design/icons";
 
 Enzyme.configure({ adapter: new Adapter() });
 
 describe("MainContainer", function () {
-  it("should render 1 MainMenu, 1 ProjectMenu, 1 ImageContainer", function () {
+  it("should render 1 MainMenu, 1 ModalMenu, 1 UserOutlined if state.user is null", function () {
     const wrapper = shallow(<MainContainer />);
+    wrapper.setState({ user: null });
+    expect(wrapper.find(MainMenu)).toHaveLength(1);
+    expect(wrapper.find(ModalMenu)).toHaveLength(1);
+    expect(wrapper.find(UserOutlined)).toHaveLength(1);
+  });
+
+  it("should render 1 MainMenu, 1 ModalMenu, 1 DatabaseOutlined, 1 PlusCircleOutlined if state.projectName is null", function () {
+    const wrapper = shallow(<MainContainer />);
+    wrapper.setState({ user: "TEST_USER", projectName: null });
+    expect(wrapper.find(MainMenu)).toHaveLength(1);
+    expect(wrapper.find(ModalMenu)).toHaveLength(1);
+    expect(wrapper.find(DatabaseOutlined)).toHaveLength(1);
+    expect(wrapper.find(PlusCircleOutlined)).toHaveLength(1);
+  });
+
+  it("should render 1 MainMenu, 1 ProjectMenu, 1 ImageContainer, 1 ModalMenu if state.projectName and state.user are not null", function () {
+    const wrapper = shallow(<MainContainer />);
+    wrapper.setState({ user: "TEST_USER", projectName: "TEST_PROJECT_NAME" });
     expect(wrapper.find(MainMenu)).toHaveLength(1);
     expect(wrapper.find(ProjectMenu)).toHaveLength(1);
     expect(wrapper.find(ImageContainer)).toHaveLength(1);
+    expect(wrapper.find(ModalMenu)).toHaveLength(1);
   });
 
-  it("should render 0 ImageBoxListItem at first, then 2 after state.imageBoxes is set", function () {
-    const imageBoxes_test = [
+  it("should render ImageBoxes equal to the length of state.imageBoxes", function () {
+    var imageBoxes_test = [];
+    const wrapper = shallow(<MainContainer />);
+    wrapper.setState({
+      user: "TEST_USER",
+      projectName: "TEST_PROJECT_NAME",
+      imageBoxes: imageBoxes_test,
+    });
+    expect(wrapper.find(ImageBoxListItem)).toHaveLength(0);
+
+    imageBoxes_test = [
       {
         boxNumber: 0,
         topLeft: [0, 0],
@@ -33,10 +67,6 @@ describe("MainContainer", function () {
         displayText: "box 2",
       },
     ];
-
-    const wrapper = shallow(<MainContainer />);
-    expect(wrapper.find(ImageBoxListItem)).toHaveLength(0);
-
     wrapper.setState({ imageBoxes: imageBoxes_test });
     expect(wrapper.find(ImageBoxListItem)).toHaveLength(2);
   });

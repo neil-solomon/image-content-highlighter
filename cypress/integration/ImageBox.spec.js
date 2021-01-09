@@ -2,6 +2,13 @@ describe("ImageBox:", function () {
   // Step 1: setup the application state
   beforeEach(function () {
     cy.visit("/");
+    cy.get("[data-test=MainContainer_account]").click();
+    cy.get("[data-test=login_test]").click();
+    cy.get("[data-test=MainContainer_startProject]").click();
+    cy.get("[data-test=ModalMenu_newProject_projectName]").type(
+      "TEST_PROJECT_NAME"
+    );
+    cy.get("[data-test=ModalMenu_okButton]").click();
     cy.get("[data-test=uploadImageInput]").attachFile("testImage.png");
   });
 

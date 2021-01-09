@@ -3,6 +3,17 @@ import styles from "./ModalMenuGetCode.module.css";
 
 export default class ModalMenuGetCode extends React.Component {
   render() {
-    return <div>ModalMenuGetCode</div>;
+    return (
+      <div>
+        <div>
+          <button
+            onClick={this.props.downloadHtml}
+            data-test="ModalMenuGetCode_downloadHtml"
+          >
+            Download Html
+          </button>
+        </div>
+      </div>
+    );
   }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./ModalMenu.module.css";
-import { Modal } from "antd";
+import { Modal, Button } from "antd";
 import ModalMenuAccount from "../ModalMenuAccount";
 import ModalMenuNewProject from "../ModalMenuNewProject";
 import ModalMenuProjects from "../ModalMenuProjects";
@@ -56,13 +56,32 @@ export default class ModalMenu extends React.Component {
         onCancel={() => this.props.update_modalMenuView(-1)}
         onOk={this.handleOnOk}
         title={this.modalTitles[this.findActiveMenuView()]}
+        footer={[
+          <Button
+            key="Cancel"
+            onClick={() => this.props.update_modalMenuView(-1)}
+            data-test="ModalMenu_cancelButton"
+          >
+            Cancel
+          </Button>,
+          <Button
+            key="Ok"
+            type="primary"
+            onClick={this.handleOnOk}
+            data-test="ModalMenu_okButton"
+          >
+            Ok
+          </Button>,
+        ]}
       >
         {this.props.menuView[0] && (
           <ModalMenuAccount login_test={this.props.login_test} />
         )}
         {this.props.menuView[1] && <ModalMenuNewProject />}
         {this.props.menuView[2] && <ModalMenuProjects />}
-        {this.props.menuView[3] && <ModalMenuGetCode />}
+        {this.props.menuView[3] && (
+          <ModalMenuGetCode downloadHtml={this.props.downloadHtml} />
+        )}
       </Modal>
     );
   }

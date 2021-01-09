@@ -267,7 +267,7 @@ export default class MainContainer extends React.Component {
     return false;
   };
 
-  download = () => {
+  downloadHtml = () => {
     const html = buildHtml(this.state.projectName, this.state.imageBoxes);
     var serilazer = new XMLSerializer();
     var htmlString = serilazer.serializeToString(html);
@@ -484,6 +484,7 @@ export default class MainContainer extends React.Component {
             <div
               className={styles.noProjectContainer}
               onClick={() => this.update_modalMenuView(0)}
+              data-test="MainContainer_account"
             >
               <UserOutlined className={styles.noProjectIcon} />
               <div className={styles.noProjectText} data-test="openProject">
@@ -494,7 +495,7 @@ export default class MainContainer extends React.Component {
           <ModalMenu
             menuView={this.state.modalMenuView}
             update_modalMenuView={this.update_modalMenuView}
-            download={this.download}
+            downloadHtml={this.downloadHtml}
             startNewProject={this.startNewProject}
             login_test={this.login_test}
           />
@@ -522,6 +523,7 @@ export default class MainContainer extends React.Component {
             <div
               className={styles.noProjectContainer}
               onClick={() => this.update_modalMenuView(1)}
+              data-test="MainContainer_startProject"
             >
               <PlusCircleOutlined className={styles.noProjectIcon} />
               <div className={styles.noProjectText} data-test="startNewProject">
@@ -532,7 +534,7 @@ export default class MainContainer extends React.Component {
           <ModalMenu
             menuView={this.state.modalMenuView}
             update_modalMenuView={this.update_modalMenuView}
-            download={this.download}
+            downloadHtml={this.downloadHtml}
             startNewProject={this.startNewProject}
             login_test={this.login_test}
           />
@@ -556,7 +558,6 @@ export default class MainContainer extends React.Component {
             loadImage={this.loadImage}
             highlightColor={this.state.highlightColor}
             update_highlightColor={this.update_highlightColor}
-            download={this.download}
             update_modalMenuView={this.update_modalMenuView}
           />
           <div id="imageBoxList">
@@ -592,7 +593,7 @@ export default class MainContainer extends React.Component {
         <ModalMenu
           menuView={this.state.modalMenuView}
           update_modalMenuView={this.update_modalMenuView}
-          download={this.download}
+          downloadHtml={this.downloadHtml}
           startNewProject={this.startNewProject}
           login_test={this.login_test}
         />

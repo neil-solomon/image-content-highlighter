@@ -2,6 +2,13 @@ describe("ProjectMenu:", function () {
   // Step 1: setup the application state
   beforeEach(function () {
     cy.visit("/");
+    cy.get("[data-test=MainContainer_account]").click();
+    cy.get("[data-test=login_test]").click();
+    cy.get("[data-test=MainContainer_startProject]").click();
+    cy.get("[data-test=ModalMenu_newProject_projectName]").type(
+      "TEST_PROJECT_NAME"
+    );
+    cy.get("[data-test=ModalMenu_okButton]").click();
   });
 
   describe("Upload image:", () => {
@@ -15,22 +22,12 @@ describe("ProjectMenu:", function () {
     });
   });
 
-  describe("Download files:", () => {
-    // it("displays entered filename in input", () => {
-    //   // Step 2: Take an action
-    //   cy.get("[data-test=filenameInput]").type("DUMMY_FILENAME");
-
-    //   // Step 3: Make an assertion
-    //   cy.get("[data-test=filenameInput]").should(
-    //     "have.value",
-    //     "DUMMY_FILENAME"
-    //   );
-    // });
-
-    it("downloads the file when the button is clicked. Also the file has the proper name", () => {
+  describe("Download html files:", () => {
+    it("downloads the html file when 'Download The Code' is clicked, then 'Download Html' is clicked. Also the downloaded file has the name that was entered into the filename input.", () => {
       // Step 2: Take an action
       cy.get("[data-test=downloadFilesButton]").click();
-      cy.wait(1000); // wait for download to finish
+      cy.get("[data-test=ModalMenuGetCode_downloadHtml]").click();
+      cy.wait(5000); // wait for download to finish
 
       // Step 3: Make an assertion
       cy.get("[data-test=projectName]")

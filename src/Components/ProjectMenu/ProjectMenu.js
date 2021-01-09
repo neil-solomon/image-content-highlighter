@@ -10,41 +10,6 @@ import {
 
 export default class ProjectMenu extends React.Component {
   render() {
-    if (!this.props.projectName) {
-      return (
-        <div className={styles.container}>
-          <div className={styles.noProjectContainer}>
-            <DatabaseOutlined
-              className={styles.icon}
-              style={{ marginLeft: 0, marginTop: 5 }}
-              onClick={() => this.props.update_modalMenuView(2)}
-            />
-            <div
-              onClick={() => this.props.update_modalMenuView(2)}
-              className={styles.noProjectText}
-              data-test="openProject"
-            >
-              Open A Project
-            </div>
-          </div>
-          <div className={styles.noProjectContainer}>
-            <PlusCircleOutlined
-              className={styles.icon}
-              style={{ marginLeft: 0, marginTop: 5 }}
-              onClick={() => this.props.update_modalMenuView(1)}
-            />
-            <div
-              onClick={() => this.props.update_modalMenuView(1)}
-              className={styles.noProjectText}
-              data-test="startNewProject"
-            >
-              Start New A Project
-            </div>
-          </div>
-        </div>
-      );
-    }
-
     return (
       <div className={styles.container}>
         <div className={styles.projectName} data-test="projectName">

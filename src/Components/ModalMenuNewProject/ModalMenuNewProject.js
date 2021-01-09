@@ -9,7 +9,7 @@ export default class ModalMenuNewProject extends React.Component {
         <input
           type="text"
           id="ModalMenu_newProject_projectName"
-          data-test="ModalMenu-newProject-projectName"
+          data-test="ModalMenu_newProject_projectName"
         />
       </div>
     );
