@@ -24,7 +24,7 @@ describe("ProjectMenu:", function () {
 
   // Only Run This Test In Development
   // describe("Download html files:", () => {
-  //   it("downloads the html file when 'Download The Code' is clicked, then 'Download Html' is clicked. Also the downloaded file has the name that was entered into the filename input.", () => {
+  //   it("downloads the html file when 'Download The Code' is clicked, then 'Download Html' is clicked. Also the downloaded file has the proper name.", () => {
   //     // Step 2: Take an action
   //     cy.get("[data-test=downloadFilesButton]").click();
   //     cy.get("[data-test=ModalMenuGetCode_downloadHtml]").click();
