@@ -22,23 +22,24 @@ describe("ProjectMenu:", function () {
     });
   });
 
-  describe("Download html files:", () => {
-    it("downloads the html file when 'Download The Code' is clicked, then 'Download Html' is clicked. Also the downloaded file has the name that was entered into the filename input.", () => {
-      // Step 2: Take an action
-      cy.get("[data-test=downloadFilesButton]").click();
-      cy.get("[data-test=ModalMenuGetCode_downloadHtml]").click();
-      cy.wait(5000); // wait for download to finish
+  // Only Run This Test In Development
+  // describe("Download html files:", () => {
+  //   it("downloads the html file when 'Download The Code' is clicked, then 'Download Html' is clicked. Also the downloaded file has the name that was entered into the filename input.", () => {
+  //     // Step 2: Take an action
+  //     cy.get("[data-test=downloadFilesButton]").click();
+  //     cy.get("[data-test=ModalMenuGetCode_downloadHtml]").click();
+  //     cy.wait(5000); // wait for download to finish
 
-      // Step 3: Make an assertion
-      cy.get("[data-test=projectName]")
-        .invoke("text")
-        .then((text) => {
-          cy.readFile(
-            "./cypress/excelDownloads/imageMapper-" + text + ".zip"
-          ).should("exist");
-        });
-    });
-  });
+  //     // Step 3: Make an assertion
+  //     cy.get("[data-test=projectName]")
+  //       .invoke("text")
+  //       .then((text) => {
+  //         cy.readFile(
+  //           "./cypress/excelDownloads/imageMapper-" + text + ".zip"
+  //         ).should("exist");
+  //       });
+  //   });
+  // });
 
   describe("Project Menu scroll:", () => {
     it("scrolls when a ImageBox is activated", () => {
