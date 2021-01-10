@@ -2,7 +2,7 @@
   text-align: center;
   background-color: rgb(48, 63, 159);
   height: 50px;
-  animation: fadeIn 0.5s forwards;
+  animation: fadeIn 0.25s forwards;
 }
 
 .title {

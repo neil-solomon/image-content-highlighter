@@ -4,10 +4,12 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.3.0",
+    "@aws-amplify/ui-react": "^0.2.34",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "antd": "^4.10.0",
+    "aws-amplify": "^3.3.14",
     "cypress": "^6.2.0",
     "cypress-file-upload": "^4.1.1",
     "enzyme": "^3.11.0",

@@ -1,1 +1,10 @@
-{}
+{
+  "auth": {
+    "imagemapper5f53710e": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}

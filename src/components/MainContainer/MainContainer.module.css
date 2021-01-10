@@ -5,7 +5,7 @@
   overflow-y: scroll;
   width: 400px;
   padding-bottom: 50px;
-  animation: fadeIn 0.5s forwards;
+  animation: fadeIn 0.25s forwards;
 }
 
 .noProjectText {
@@ -22,7 +22,7 @@
   color: #212121;
   transition: color 0.25s;
   cursor: pointer;
-  animation: fadeIn 0.5s forwards;
+  animation: fadeIn 0.25s forwards;
 }
 .noProjectContainer:hover {
   color: rgb(255, 87, 34);
