@@ -18,6 +18,7 @@ import MainMenu from "../MainMenu";
 import ProjectMenu from "../ProjectMenu";
 import AuthMenu from "../AuthMenu";
 import buildHtml from "./buildHtml";
+import { AuthState } from "@aws-amplify/ui-components";
 
 export default class MainContainer extends React.Component {
   state = {
@@ -495,7 +496,10 @@ export default class MainContainer extends React.Component {
 
   render() {
     console.log(this.state.currentProjectIndex);
-    if (!this.state.user) {
+    if (
+      this.state.user === null ||
+      this.state.authState !== AuthState.SignedIn
+    ) {
       return (
         <div>
           <MainMenu user={this.state.user} />

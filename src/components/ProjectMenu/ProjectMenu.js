@@ -57,7 +57,7 @@ export default class ProjectMenu extends React.Component {
           onCancel={this.props.closeGetCodeModal}
           onOk={this.props.closeGetCodeModal}
         >
-          <div>
+          <div data-test="ProjectMenu_modalChildren">
             <button
               onClick={this.props.downloadHtml}
               data-test="ModalMenuGetCode_downloadHtml"
