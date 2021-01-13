@@ -8,9 +8,9 @@ import { Tooltip } from "antd";
 Enzyme.configure({ adapter: new Adapter() });
 
 describe("MainMenu", function () {
-  it("should render 3 div and 3 Tooltip", function () {
+  it("should render 1 div and 1 Tooltip", function () {
     const wrapper = shallow(<MainMenu />);
-    expect(wrapper.find("div")).toHaveLength(3);
-    expect(wrapper.find(Tooltip)).toHaveLength(3);
+    expect(wrapper.find("div")).toHaveLength(1);
+    expect(wrapper.find(Tooltip)).toHaveLength(1);
   });
 });

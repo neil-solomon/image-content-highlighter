@@ -16,22 +16,38 @@ import ImageContainer from "../ImageContainer";
 import ImageBoxListItem from "../ImageBoxListItem";
 import MainMenu from "../MainMenu";
 import ProjectMenu from "../ProjectMenu";
-import ModalMenu from "../ModalMenu";
+import AuthMenu from "../AuthMenu";
 import buildHtml from "./buildHtml";
-import {
-  DatabaseOutlined,
-  PlusCircleOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
 
 export default class MainContainer extends React.Component {
   state = {
     projectName: null,
-    highlightColor: "#ff5722",
     projectMenuContainerScrollTop: 0,
-    modalMenuView: [false, false, false, false], // Account, New Project, Projects, Get Code
+    getCodeModalVisible: false,
+
+    newProjectName: "",
+    projects: [
+      {
+        name: "testProject1",
+        highlightColor: "#aa9901",
+        imageBoxes: [],
+        imageSrc: "",
+        imageHeight: 0,
+        imageWidth: 0,
+      },
+      {
+        name: "testProject2",
+        highlightColor: "#cc1155",
+        imageBoxes: [],
+        imageSrc: "",
+        imageHeight: 0,
+        imageWidth: 0,
+      },
+    ],
+    currentProjectIndex: null,
 
     user: null,
+    authState: null,
 
     mouseX: 0,
     mouseY: 0,
@@ -419,7 +435,10 @@ export default class MainContainer extends React.Component {
 
   update_highlightColor = (event) => {
     console.log(event.target.value);
-    this.setState({ highlightColor: event.target.value });
+    var projects = JSON.parse(JSON.stringify(this.state.projects));
+    projects[this.state.currentProjectIndex].highlightColor =
+      event.target.value;
+    this.setState({ projects });
   };
 
   deleteImageBox = (boxNumber) => {
@@ -443,101 +462,86 @@ export default class MainContainer extends React.Component {
     projectMenuContainer.scrollTop = index * 70;
   };
 
-  update_modalMenuView = (index) => {
-    var modalMenuView = JSON.parse(JSON.stringify(this.state.modalMenuView));
-    for (let i = 0; i < modalMenuView.length; ++i) {
-      if (i === index) {
-        modalMenuView[i] = true;
-      } else {
-        modalMenuView[i] = false;
-      }
-    }
-    this.setState({ modalMenuView });
+  updateUser = (authData) => {
+    this.setState({ user: authData });
   };
 
-  startNewProject = () => {
-    var projectNameElement = document.getElementById(
-      "ModalMenu_newProject_projectName"
-    );
-    if (!projectNameElement) {
-      return;
-    }
+  updateAuthState = (nextAuthState) => {
+    this.setState({ authState: nextAuthState });
+  };
+
+  update_newProjectName = (event) => {
+    this.setState({ newProjectName: event.target.value });
+  };
+
+  loadProject = (event) => {
+    console.log(event.target.id.split("_")[1]);
     this.setState({
-      projectName: projectNameElement.value,
+      currentProjectIndex: parseInt(event.target.id.split("_")[1]),
     });
   };
 
-  login_test = () => {
-    this.setState({ user: "TEST_USER" });
-    this.update_modalMenuView(-1);
+  closeCurrentProject = () => {
+    this.setState({ currentProjectIndex: null });
+  };
+
+  openGetCodeModal = () => {
+    this.setState({ getCodeModalVisible: true });
+  };
+
+  closeGetCodeModal = () => {
+    this.setState({ getCodeModalVisible: false });
   };
 
   render() {
+    console.log(this.state.currentProjectIndex);
     if (!this.state.user) {
       return (
         <div>
-          <MainMenu
-            update_modalMenuView={this.update_modalMenuView}
-            user={this.state.user}
-          />
-          <div>
-            <div
-              className={styles.noProjectContainer}
-              onClick={() => this.update_modalMenuView(0)}
-              data-test="MainContainer_account"
-            >
-              <UserOutlined className={styles.noProjectIcon} />
-              <div className={styles.noProjectText} data-test="openProject">
-                Login
-              </div>
-            </div>
-          </div>
-          <ModalMenu
-            menuView={this.state.modalMenuView}
-            update_modalMenuView={this.update_modalMenuView}
-            downloadHtml={this.downloadHtml}
-            startNewProject={this.startNewProject}
-            login_test={this.login_test}
+          <MainMenu user={this.state.user} />
+          <AuthMenu
+            updateAuthState={this.updateAuthState}
+            updateUser={this.updateUser}
           />
         </div>
       );
     }
 
-    if (!this.state.projectName) {
+    if (this.state.currentProjectIndex === null) {
       return (
         <div>
           <MainMenu
-            update_modalMenuView={this.update_modalMenuView}
+            closeCurrentProject={this.closeCurrentProject}
             user={this.state.user}
           />
-          <div>
-            <div
-              className={styles.noProjectContainer}
-              onClick={() => this.update_modalMenuView(2)}
-            >
-              <DatabaseOutlined className={styles.noProjectIcon} />
-              <div className={styles.noProjectText} data-test="openProject">
-                Open A Project
-              </div>
-            </div>
-            <div
-              className={styles.noProjectContainer}
-              onClick={() => this.update_modalMenuView(1)}
-              data-test="MainContainer_startProject"
-            >
-              <PlusCircleOutlined className={styles.noProjectIcon} />
-              <div className={styles.noProjectText} data-test="startNewProject">
-                Start New A Project
-              </div>
-            </div>
-          </div>
-          <ModalMenu
-            menuView={this.state.modalMenuView}
-            update_modalMenuView={this.update_modalMenuView}
-            downloadHtml={this.downloadHtml}
-            startNewProject={this.startNewProject}
-            login_test={this.login_test}
+          <AuthMenu
+            authState={this.state.authState}
+            user={this.state.user}
+            updateAuthState={this.updateAuthState}
+            updateUser={this.updateUser}
           />
+          <div className={styles.projects}>
+            <div>
+              <input
+                type="text"
+                value={this.state.newProjectName}
+                onChange={this.update_newProjectName}
+              />
+              <button disabled={this.state.newProjectName === ""}>
+                Create New Project
+              </button>
+            </div>
+            <div>My Projects</div>
+            {this.state.projects.map((project, index) => (
+              <div
+                key={project.name + "_" + index}
+                id={project.name + "_" + index}
+                onClick={this.loadProject}
+              >
+                {project.name}
+              </div>
+            ))}
+          </div>
         </div>
       );
     }
@@ -545,7 +549,7 @@ export default class MainContainer extends React.Component {
     return (
       <div>
         <MainMenu
-          update_modalMenuView={this.update_modalMenuView}
+          closeCurrentProject={this.closeCurrentProject}
           user={this.state.user}
         />
         <div
@@ -554,48 +558,60 @@ export default class MainContainer extends React.Component {
           className={styles.projectMenuContainer}
         >
           <ProjectMenu
-            projectName={this.state.projectName}
+            projectName={
+              this.state.projects[this.state.currentProjectIndex].name
+            }
             loadImage={this.loadImage}
-            highlightColor={this.state.highlightColor}
+            highlightColor={
+              this.state.projects[this.state.currentProjectIndex].highlightColor
+            }
             update_highlightColor={this.update_highlightColor}
-            update_modalMenuView={this.update_modalMenuView}
+            getCodeModalVisible={this.state.getCodeModalVisible}
+            openGetCodeModal={this.openGetCodeModal}
+            closeGetCodeModal={this.closeGetCodeModal}
+            downloadHtml={this.downloadHtml}
           />
           <div id="imageBoxList">
-            {this.state.imageBoxes.map((box) => (
-              <ImageBoxListItem
-                key={"imageBoxListItem" + box.boxNumber}
-                boxNumber={box.boxNumber}
-                active={box.active}
-                displayText={box.displayText}
-                clickUrl={box.clickUrl}
-                clickTarget={box.clickTarget}
-                updateActiveImageBox={this.updateActiveImageBox}
-                update_displayText={this.update_displayText}
-                update_clickUrl={this.update_clickUrl}
-                update_clickTarget={this.update_clickTarget}
-                deleteImageBox={this.deleteImageBox}
-              />
-            ))}
+            {this.state.projects[this.state.currentProjectIndex].imageBoxes.map(
+              (box) => (
+                <ImageBoxListItem
+                  key={"imageBoxListItem" + box.boxNumber}
+                  boxNumber={box.boxNumber}
+                  active={box.active}
+                  displayText={box.displayText}
+                  clickUrl={box.clickUrl}
+                  clickTarget={box.clickTarget}
+                  updateActiveImageBox={this.updateActiveImageBox}
+                  update_displayText={this.update_displayText}
+                  update_clickUrl={this.update_clickUrl}
+                  update_clickTarget={this.update_clickTarget}
+                  deleteImageBox={this.deleteImageBox}
+                />
+              )
+            )}
           </div>
         </div>
         <ImageContainer
-          imageBoxes={this.state.imageBoxes}
-          imageWidth={this.state.imageWidth}
-          imageHeight={this.state.imageHeight}
+          imageBoxes={
+            this.state.projects[this.state.currentProjectIndex].imageBoxes
+          }
+          imageWidth={
+            this.state.projects[this.state.currentProjectIndex].imageWidth
+          }
+          imageHeight={
+            this.state.projects[this.state.currentProjectIndex].imageHeight
+          }
           imageContainer_mousedown={this.imageContainer_mousedown}
-          imageSrc={this.state.imageSrc}
+          imageSrc={
+            this.state.projects[this.state.currentProjectIndex].imageSrc
+          }
           update_imageSize={this.update_imageSize}
-          highlightColor={this.state.highlightColor}
+          highlightColor={
+            this.state.projects[this.state.currentProjectIndex].highlightColor
+          }
           updateActiveImageBox={this.updateActiveImageBox}
           imageBoxResize={this.imageBoxResize}
           imageBoxMove={this.imageBoxMove}
-        />
-        <ModalMenu
-          menuView={this.state.modalMenuView}
-          update_modalMenuView={this.update_modalMenuView}
-          downloadHtml={this.downloadHtml}
-          startNewProject={this.startNewProject}
-          login_test={this.login_test}
         />
       </div>
     );

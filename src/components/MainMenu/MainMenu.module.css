@@ -15,6 +15,7 @@
 .icons {
   float: right;
   margin-top: 10px;
+  width: 150px;
 }
 
 .icon {
@@ -24,7 +25,7 @@
   transition: color 0.25s;
 }
 .icon:hover {
-  color: rgb(255, 87, 34);
+  color: rgb(255, 153, 1);
 }
 
 @keyframes fadeIn {

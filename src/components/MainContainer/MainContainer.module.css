@@ -8,13 +8,17 @@
   animation: fadeIn 0.25s forwards;
 }
 
+.projects {
+  text-align: center;
+}
+
 .noProjectText {
   font-size: 2em;
 }
 
 .noProjectContainer {
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin-top: 25px;
+  margin-bottom: 25px;
   text-align: center;
   width: 350px;
   margin-left: auto;
@@ -25,10 +29,10 @@
   animation: fadeIn 0.25s forwards;
 }
 .noProjectContainer:hover {
-  color: rgb(255, 87, 34);
+  color: rgb(255, 153, 1);
 }
 .noProjectContainer:hover .noProjectIcon {
-  color: rgb(255, 87, 34);
+  color: rgb(255, 153, 1);
 }
 
 .noProjectIcon {

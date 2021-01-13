@@ -8,6 +8,7 @@ import ImageContainer from "../ImageContainer";
 import ImageBoxListItem from "../ImageBoxListItem";
 import MainMenu from "../MainMenu";
 import ModalMenu from "../ModalMenu";
+import AuthMenu from "../AuthMenu";
 import {
   UserOutlined,
   DatabaseOutlined,
@@ -17,7 +18,7 @@ import {
 Enzyme.configure({ adapter: new Adapter() });
 
 describe("MainContainer", function () {
-  it("should render 1 MainMenu, 1 ModalMenu, 1 UserOutlined if state.user is null", function () {
+  it("should render 1 MainMenu, 1 AuthMenu if user is null and there is no current project", function () {
     const wrapper = shallow(<MainContainer />);
     wrapper.setState({ user: null });
     expect(wrapper.find(MainMenu)).toHaveLength(1);

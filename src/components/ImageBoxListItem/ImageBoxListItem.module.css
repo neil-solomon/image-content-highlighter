@@ -25,8 +25,8 @@
   transition: color 0.25s, border 0.25s;
 }
 .deleteIcon:hover {
-  color: rgb(255, 87, 34);
-  border: 2px solid rgb(255, 87, 34);
+  color: rgb(255, 153, 1);
+  border: 2px solid rgb(255, 153, 1);
 }
 
 .textInput {

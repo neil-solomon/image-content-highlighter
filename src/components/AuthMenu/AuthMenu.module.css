@@ -1,0 +1,44 @@
+.container {
+  animation: fadeIn 0.25s forwards;
+  display: flex;
+  justify-content: center;
+}
+
+.greeting {
+  text-align: center;
+  font-size: 1.5em;
+  margin: 25px;
+  display: inline-block;
+}
+
+.signOutContainer {
+  width: 150px;
+  display: inline-block;
+  margin: 20px;
+}
+
+.fadeIn {
+  animation: fadeIn 0.25s forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeOut {
+  animation: fadeOut 0.25s forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
