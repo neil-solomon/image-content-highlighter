@@ -6,7 +6,9 @@ export default class MainMenu extends React.Component {
   render() {
     return (
       <div className={styles.container}>
-        <div className={styles.title}>Image Mapper</div>
+        <div className={styles.title} data-test="MainMenu_title">
+          Image Mapper
+        </div>
         <div className={styles.icons}>
           <UserOutlined
             className={styles.icon}

@@ -10,8 +10,12 @@ export default class ProjectList extends React.Component {
             type="text"
             value={this.props.newProjectName}
             onChange={this.props.update_newProjectName}
+            data-test="ProjectList_newProjectNameInput"
           />
-          <button disabled={this.props.newProjectName === ""}>
+          <button
+            disabled={this.props.newProjectName === ""}
+            data-test="ProjectList_newProjectButton"
+          >
             Create New Project
           </button>
         </div>
@@ -20,6 +24,7 @@ export default class ProjectList extends React.Component {
           <div
             key={project.name + "_" + index}
             id={project.name + "_" + index}
+            data-test={"ProjectList_project" + index}
             onClick={this.props.loadProject}
           >
             {project.name}

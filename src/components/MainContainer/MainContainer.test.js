@@ -25,7 +25,7 @@ describe("MainContainer", function () {
   });
 
   it("should render 1 MainMenu, 1 AuthMenu, 1 ProjectList if user is signed in and no project is selected", function () {
-    var test_user = null;
+    var test_user = { attributes: { email: "user@test.com" } };
     var test_authState = AuthState.SignedIn;
     var test_projects = [];
     var test_currentProjectIndex = null;
