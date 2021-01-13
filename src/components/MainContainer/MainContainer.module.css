@@ -8,10 +8,6 @@
   animation: fadeIn 0.25s forwards;
 }
 
-.projects {
-  text-align: center;
-}
-
 .noProjectText {
   font-size: 2em;
 }

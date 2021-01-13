@@ -5,7 +5,7 @@ if len(sys.argv) != 2:
 
 def main():
     name = sys.argv[1]
-    delay = .1
+    delay = 1
 
     try:
         os.system("cd src/components")
@@ -13,6 +13,9 @@ def main():
         os.system("cd src && mkdir components")
 
     time.sleep(delay)
+
+    if os.path.isdir("src/components/" + name ):
+        raise Exception("Falied to make new component. Directory 'src/components/" + name + "' already exists.")
 
     try:
         os.system("cd src/components && mkdir " + name)

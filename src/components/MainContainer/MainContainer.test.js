@@ -5,6 +5,7 @@ import Adapter from "enzyme-adapter-react-16";
 import MainContainer from "./MainContainer";
 import ProjectMenu from "../ProjectMenu";
 import ImageContainer from "../ImageContainer";
+import ProjectList from "../ProjectList";
 import ImageBoxListItem from "../ImageBoxListItem";
 import MainMenu from "../MainMenu";
 import AuthMenu from "../AuthMenu";
@@ -23,16 +24,26 @@ describe("MainContainer", function () {
     expect(wrapper.find(AuthMenu)).toHaveLength(1);
   });
 
-  // it("should render 1 MainMenu, 1 AuthMenu", function () {
-  //   const wrapper = shallow(<MainContainer />);
-  //   wrapper.setState({ user: "TEST_USER", projectName: null });
-  //   expect(wrapper.find(MainMenu)).toHaveLength(1);
-  //   expect(wrapper.find(ModalMenu)).toHaveLength(1);
-  //   expect(wrapper.find(DatabaseOutlined)).toHaveLength(1);
-  //   expect(wrapper.find(PlusCircleOutlined)).toHaveLength(1);
-  // });
+  it("should render 1 MainMenu, 1 AuthMenu, 1 ProjectList if user is signed in and no project is selected", function () {
+    var test_user = null;
+    var test_authState = AuthState.SignedIn;
+    var test_projects = [];
+    var test_currentProjectIndex = null;
 
-  it("should render ImageBoxes equal to the length of imageBoxes in the selected project", function () {
+    const wrapper = shallow(<MainContainer />);
+    wrapper.setState({
+      user: test_user,
+      authState: test_authState,
+      projects: test_projects,
+      currentProjectIndex: test_currentProjectIndex,
+    });
+
+    expect(wrapper.find(MainMenu)).toHaveLength(1);
+    expect(wrapper.find(AuthMenu)).toHaveLength(1);
+    expect(wrapper.find(ProjectList)).toHaveLength(1);
+  });
+
+  it("should render 1 MainMenu, 1 ProjectMenu, 1 ImageContainer, and ImageBoxes equal to the length of imageBoxes in the selected project", function () {
     var test_projects = [
       {
         name: "testProject1",
@@ -89,6 +100,8 @@ describe("MainContainer", function () {
       currentProjectIndex: test_currentProjectIndex,
     });
     expect(wrapper.find(ImageBoxListItem)).toHaveLength(1);
+    expect(wrapper.find(ProjectMenu)).toHaveLength(1);
+    expect(wrapper.find(ImageContainer)).toHaveLength(1);
 
     var test_currentProjectIndex = 1;
     var wrapper = shallow(<MainContainer />);
@@ -99,5 +112,7 @@ describe("MainContainer", function () {
       currentProjectIndex: test_currentProjectIndex,
     });
     expect(wrapper.find(ImageBoxListItem)).toHaveLength(2);
+    expect(wrapper.find(ProjectMenu)).toHaveLength(1);
+    expect(wrapper.find(ImageContainer)).toHaveLength(1);
   });
 });

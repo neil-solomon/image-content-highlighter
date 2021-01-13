@@ -17,6 +17,7 @@ import ImageBoxListItem from "../ImageBoxListItem";
 import MainMenu from "../MainMenu";
 import ProjectMenu from "../ProjectMenu";
 import AuthMenu from "../AuthMenu";
+import ProjectList from "../ProjectList";
 import buildHtml from "./buildHtml";
 import { AuthState } from "@aws-amplify/ui-components";
 
@@ -524,28 +525,12 @@ export default class MainContainer extends React.Component {
             updateAuthState={this.updateAuthState}
             updateUser={this.updateUser}
           />
-          <div className={styles.projects}>
-            <div>
-              <input
-                type="text"
-                value={this.state.newProjectName}
-                onChange={this.update_newProjectName}
-              />
-              <button disabled={this.state.newProjectName === ""}>
-                Create New Project
-              </button>
-            </div>
-            <div>My Projects</div>
-            {this.state.projects.map((project, index) => (
-              <div
-                key={project.name + "_" + index}
-                id={project.name + "_" + index}
-                onClick={this.loadProject}
-              >
-                {project.name}
-              </div>
-            ))}
-          </div>
+          <ProjectList
+            update_newProjectName={this.update_newProjectName}
+            newProjectName={this.state.newProjectName}
+            projects={this.state.projects}
+            loadProject={this.loadProject}
+          />
         </div>
       );
     }
