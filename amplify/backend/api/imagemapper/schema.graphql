@@ -2,7 +2,7 @@ type Project @model @auth(rules: [{ allow: owner }]) {
   id: ID!
   name: String!
   imageBoxes: String!
-  highlighColor: String!
+  highlightColor: String!
   image: String
   imageHeight: String
   imageWidth: String

@@ -13,6 +13,7 @@ export default class ProjectList extends React.Component {
             data-test="ProjectList_newProjectNameInput"
           />
           <button
+            onClick={this.props.createNewProject}
             disabled={this.props.newProjectName === ""}
             data-test="ProjectList_newProjectButton"
           >

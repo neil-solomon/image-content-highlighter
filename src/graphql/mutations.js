@@ -10,7 +10,7 @@ export const createProject = /* GraphQL */ `
       id
       name
       imageBoxes
-      highlighColor
+      highlightColor
       image
       imageHeight
       imageWidth
@@ -29,7 +29,7 @@ export const updateProject = /* GraphQL */ `
       id
       name
       imageBoxes
-      highlighColor
+      highlightColor
       image
       imageHeight
       imageWidth
@@ -48,7 +48,7 @@ export const deleteProject = /* GraphQL */ `
       id
       name
       imageBoxes
-      highlighColor
+      highlightColor
       image
       imageHeight
       imageWidth

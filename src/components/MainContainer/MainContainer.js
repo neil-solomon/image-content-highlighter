@@ -20,56 +20,66 @@ import AuthMenu from "../AuthMenu";
 import ProjectList from "../ProjectList";
 import buildHtml from "./buildHtml";
 import { AuthState } from "@aws-amplify/ui-components";
-import { API, Storage, graphqlOperation } from "aws-amplify";
+import { API, Storage, graphqlOperation, Auth } from "aws-amplify";
 import { getProject, listProjects } from "../../graphql/queries";
 import {
   createProject,
   updateProject,
   deleteProject,
 } from "../../graphql/mutations";
+import { onCreateProject, onDeleteProject } from "../../graphql/subscriptions";
 
 export default class MainContainer extends React.Component {
-  state = {
-    projectName: null,
-    projectMenuContainerScrollTop: 0,
-    getCodeModalVisible: false,
+  constructor(props) {
+    super(props);
 
-    newProjectName: "",
-    projects: [
-      {
-        name: "testProject1",
-        highlightColor: "#aa9901",
-        imageBoxes: [],
-        imageSrc: "",
-        imageHeight: 0,
-        imageWidth: 0,
-      },
-      {
-        name: "testProject2",
-        highlightColor: "#cc1155",
-        imageBoxes: [],
-        imageSrc: "",
-        imageHeight: 0,
-        imageWidth: 0,
-      },
-    ],
-    currentProjectIndex: null,
+    this.getProjects = this.getProjects.bind(this);
+    this.createNewProject = this.createNewProject.bind(this);
 
-    user: null,
-    authState: null,
+    this.onCreateProjectSubscription = null;
+    this.onDeleteProjectSubscription = null;
 
-    mouseX: 0,
-    mouseY: 0,
+    this.state = {
+      projectName: null,
+      projectMenuContainerScrollTop: 0,
+      getCodeModalVisible: false,
 
-    imageSrc: "",
-    imageData: "",
-    imageHeight: 0,
-    imageWidth: 0,
+      newProjectName: "",
+      projects: [
+        // {
+        //   name: "testProject1",
+        //   highlightColor: "#aa9901",
+        //   imageBoxes: [],
+        //   imageSrc: "",
+        //   imageHeight: 0,
+        //   imageWidth: 0,
+        // },
+        // {
+        //   name: "testProject2",
+        //   highlightColor: "#cc1155",
+        //   imageBoxes: [],
+        //   imageSrc: "",
+        //   imageHeight: 0,
+        //   imageWidth: 0,
+        // },
+      ],
+      currentProjectIndex: null,
 
-    imageBoxAdjustIndex: 0,
-    imageBoxes: [],
+      user: null,
+      authState: null,
 
-    /*
+      mouseX: 0,
+      mouseY: 0,
+
+      imageSrc: "",
+      imageData: "",
+      imageHeight: 0,
+      imageWidth: 0,
+
+      imageBoxAdjustIndex: 0,
+      imageBoxes: [],
+
+      /*
     exampleImageBox = 
       {
         active: true, // if its clicked
@@ -80,13 +90,23 @@ export default class MainContainer extends React.Component {
         clickTarget: "_self",
       },
     */
-  };
+    };
+  }
 
   componentDidMount = () => {
-    window.addEventListener("resize", this.trigger_update_imageSize);
+    this.getProjects();
+    this.makeSubscriptions();
+    // window.addEventListener("resize", this.trigger_update_imageSize);
   };
 
   componentWillUnmount = () => {
+    if (this.onCreateProjectSubscription) {
+      this.onCreateProjectSubscription.unsubscribe();
+    }
+    if (this.onDeleteProjectSubscription) {
+      this.onDeleteProjectSubscription.unsubscribe();
+    }
+
     window.removeEventListener("mousemove", this.startDrawImageBox);
     window.removeEventListener("mouseup", this.stopDrawImageBox);
 
@@ -94,6 +114,42 @@ export default class MainContainer extends React.Component {
     window.removeEventListener("mouseup", this.stopMoveImageBox);
 
     window.removeEventListener("resize", this.trigger_update_imageSize);
+  };
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if (JSON.stringify(prevState.user) !== JSON.stringify(this.state.user)) {
+      this.getProjects();
+      this.makeSubscriptions();
+    }
+  };
+
+  makeSubscriptions = () => {
+    Auth.currentAuthenticatedUser().then((user) => {
+      this.onCreateProjectSubscription = API.graphql({
+        query: onCreateProject,
+        variables: { owner: user.username },
+      }).subscribe({
+        next: (projectData) => {
+          console.log("onCreateProjectSubscription", projectData);
+          this.getProjects();
+        },
+        error: (error) => {
+          console.log("onCreateProjectSubscription error", error);
+        },
+      });
+      this.onDeleteProjectSubscription = API.graphql({
+        query: onDeleteProject,
+        variables: { owner: user.username },
+      }).subscribe({
+        next: (projectData) => {
+          console.log("onDeleteProjectSubscription", projectData);
+          this.getProjects();
+        },
+        error: (error) => {
+          console.log("onDeleteProjectSubscription error", error);
+        },
+      });
+    });
   };
 
   imageContainer_mousedown = (event) => {
@@ -484,7 +540,6 @@ export default class MainContainer extends React.Component {
   };
 
   loadProject = (event) => {
-    console.log(event.target.id.split("_")[1]);
     this.setState({
       currentProjectIndex: parseInt(event.target.id.split("_")[1]),
     });
@@ -502,8 +557,36 @@ export default class MainContainer extends React.Component {
     this.setState({ getCodeModalVisible: false });
   };
 
+  async getProjects() {
+    const apiData = await API.graphql({ query: listProjects });
+    const projectsFromApi = apiData.data.listProjects.items;
+    await Promise.all(
+      projectsFromApi.map(async (project) => {
+        if (project.image) {
+          const image = await Storage.get(project.image);
+          project.image = image;
+        }
+        project.imageBoxes = JSON.parse(project.imageBoxes);
+        return project;
+      })
+    );
+    this.setState({ projects: apiData.data.listProjects.items });
+  }
+
+  async createNewProject() {
+    await API.graphql({
+      query: createProject,
+      variables: {
+        input: {
+          name: this.state.newProjectName,
+          imageBoxes: JSON.stringify([]),
+          highlightColor: "#ff9901",
+        },
+      },
+    });
+  }
+
   render() {
-    console.log(this.state.currentProjectIndex);
     if (
       this.state.user === null ||
       this.state.authState !== AuthState.SignedIn
@@ -533,6 +616,7 @@ export default class MainContainer extends React.Component {
             updateUser={this.updateUser}
           />
           <ProjectList
+            createNewProject={this.createNewProject}
             update_newProjectName={this.update_newProjectName}
             newProjectName={this.state.newProjectName}
             projects={this.state.projects}

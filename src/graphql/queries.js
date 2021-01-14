@@ -7,7 +7,7 @@ export const getProject = /* GraphQL */ `
       id
       name
       imageBoxes
-      highlighColor
+      highlightColor
       image
       imageHeight
       imageWidth
@@ -28,7 +28,7 @@ export const listProjects = /* GraphQL */ `
         id
         name
         imageBoxes
-        highlighColor
+        highlightColor
         image
         imageHeight
         imageWidth
