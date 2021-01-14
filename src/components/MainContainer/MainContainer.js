@@ -20,6 +20,13 @@ import AuthMenu from "../AuthMenu";
 import ProjectList from "../ProjectList";
 import buildHtml from "./buildHtml";
 import { AuthState } from "@aws-amplify/ui-components";
+import { API, Storage, graphqlOperation } from "aws-amplify";
+import { getProject, listProjects } from "../../graphql/queries";
+import {
+  createProject,
+  updateProject,
+  deleteProject,
+} from "../../graphql/mutations";
 
 export default class MainContainer extends React.Component {
   state = {
